@@ -1,0 +1,21 @@
+.profile__info{
+    margin-left: 3.5px;
+    display: grid;
+    grid-template-columns: 1fr 24px;
+    row-gap: 16px;
+    column-gap: 18px;
+    color: white;
+    font-family: 'Inter', Arial, sans-serif;
+    justify-self: right; 
+}
+
+@media all and (max-width:700px) {
+    .profile__info{
+        margin-left: calc((700px - 100vw)/380*26);
+        margin-bottom: 36px;
+        margin-top: 22.5px;
+        row-gap: calc(16px - (700px - 100vw)/380*2);
+        column-gap: calc(18px - (700px - 100vw)/380*10);
+    }  
+}
+

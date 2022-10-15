@@ -1,0 +1,15 @@
+.profile__info_title{
+    text-rendering: optimizeLegibility;
+    font-size: 42px;
+    line-height: 48px;
+    font-weight: 500;
+    margin: 0;
+}
+
+@media all and (max-width:700px) {
+    .profile__info_title{
+        font-size: calc(42px - (700px - 100vw)/380*15);
+        line-height: calc(48px - (700px - 100vw)/380*15);
+    }
+    
+}

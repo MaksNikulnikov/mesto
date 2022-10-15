@@ -1,0 +1,32 @@
+.footer {
+    margin: 0 48px 24px 48px;
+    color: white;
+    font-family: 'Inter', Arial, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    max-width: calc(1280px - 48px*2);
+    width: 100%;
+}
+
+@media all and (max-width:1024px) {
+    .footer {
+        margin-left: calc(48px - (1024px - 100vw)/256*24);
+        margin-right: calc(48px - (1024px - 100vw)/256*24);
+        max-width: calc(100vw - (48px - (1024px - 100vw)/256*24)*2);
+    }
+}
+
+@media all and (max-width:768px) {
+    .footer {
+        margin-left: calc(24px - (768px - 100vw)/448*8);
+        margin-right: calc(24px - (768px - 100vw)/448*8);
+        max-width: calc(100vw - (24px - (768px - 100vw)/448*8)*2);
+    }
+}
+
+@media all and (max-width:420px) {
+    .footer{
+        flex-direction: column;
+    }
+    
+}

@@ -1,0 +1,21 @@
+.profile__info_edit-button{
+    width: 24px;
+    height: 24px;
+    background-image: url('../../../../images/pencil_vector.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: black;
+    border: 1px solid #FFFFFF;
+    padding: 7px;
+    align-self: end;
+    margin-bottom: 8px;
+}
+
+@media all and (max-width:700px) {
+    .profile__info_edit-button{
+        width: calc(24px - (700px - 100vw)/380*6);
+        height: calc(24px - (700px - 100vw)/380*6);
+        margin-bottom: calc(8px - (700px - 100vw)/380*2);
+    }
+    
+}
