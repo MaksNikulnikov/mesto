@@ -17,5 +17,6 @@
 @media all and (max-width:618px) {
     .elements__holder {
         grid-template-columns: 1fr;
+        row-gap: 18px;
     }
 }

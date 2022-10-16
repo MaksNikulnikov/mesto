@@ -1,11 +1,12 @@
 .elements {
     max-width: 880px;
     width: 100%;
-    margin-top: 47.25px;
+    margin-top: 48px;
 }
 
 @media all and (max-width:917px) {
     .elements {
         max-width: 581px;
+        margin-top: 35px;
     }
 }

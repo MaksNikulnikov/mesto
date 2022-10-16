@@ -8,6 +8,7 @@
     background-repeat: no-repeat;
     border: 2px solid white;
     padding: 0;
+    margin-left: auto;
 }
 
 @media all and (max-width:900px) {
@@ -20,6 +21,7 @@
 @media all and (max-width:700px) {
     .profile__add-button{
         max-width: calc(100vw - 19px *2);
+        background-size: 16px;
         
     }
     
