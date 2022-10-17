@@ -1,4 +1,4 @@
-.input__title {
+.popup__title {
     text-rendering: optimizeLegibility;
     font-family: 'Inter', Arial, sans-serif;
     font-size: 24px;
@@ -11,7 +11,7 @@
 }
 
 @media all and (max-width:1280px) {
-    .input__title {
+    .popup__title {
         font-size: calc(24px - ((1280px - 100vw) / 960 * (24 - 18)));
         line-height: calc(29px - ((1280px - 100vw) / 960 * (29 - 18)));
         margin-top: calc(34px - ((1280px - 100vw) / 960 * (34 - 25)));

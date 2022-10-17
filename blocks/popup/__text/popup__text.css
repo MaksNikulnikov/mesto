@@ -1,4 +1,4 @@
-.input__text {
+.popup__text {
     border: none;
     border-bottom: solid 1px rgba(0,0,0,0.2);
     display: block;
@@ -17,7 +17,7 @@
 }
 
 @media all and (max-width:1280px) {
-    .input__text {
+    .popup__text {
         max-width: calc(358px - ((1280px - 100vw) / 960 * (358 - 238)));
     }
 }

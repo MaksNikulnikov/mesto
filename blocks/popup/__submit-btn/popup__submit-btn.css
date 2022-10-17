@@ -1,4 +1,4 @@
-.input__submit-btn {
+.popup__submit-btn {
     color: white;
     font-size: 18px;
     font-weight: 400;
@@ -14,13 +14,13 @@
 }
 
 @media all and (max-width:1280px) {
-    .input__submit-btn {
+    .popup__submit-btn {
         max-width: calc(358px - ((1280px - 100vw) / 960 * (358 - 238)));
         font-size: calc(18px - ((1280px - 100vw) / 960 * (18 - 14)));
         line-height: calc(22px - ((1280px - 100vw) / 960 * (22 - 17)));
     }
 }
 
-.input__submit-btn:hover{
+.popup__submit-btn:hover{
     opacity: 80%;
 }

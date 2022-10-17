@@ -1,4 +1,4 @@
-.input__form {
+.popup__container {
     max-width: 430px;
     width: 100%;
     min-height: 330px;
@@ -17,7 +17,7 @@
 }
 
 @media all and (max-width:1280px) {
-    .input__form {
+    .popup__container {
         max-width: calc(430px - ((1280px - 100vw) / 960 * (430 - 282)));
         min-height: calc(330px - ((1280px - 100vw) / 960 * (330 - 322)));
     }
