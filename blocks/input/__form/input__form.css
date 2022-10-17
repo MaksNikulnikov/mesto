@@ -1,0 +1,24 @@
+.input__form {
+    max-width: 430px;
+    width: 100%;
+    min-height: 330px;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    background-color: white;
+    opacity: 100%;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media all and (max-width:1280px) {
+    .input__form {
+        max-width: calc(430px - ((1280px - 100vw) / 960 * (430 - 282)));
+        min-height: calc(330px - ((1280px - 100vw) / 960 * (330 - 322)));
+    }
+}
