@@ -1,4 +1,4 @@
-.profile__info_edit-button{
+.profile__info_edit-button {
     width: 24px;
     height: 24px;
     background-image: url('../../../../images/pencil_vector.svg');
@@ -12,10 +12,13 @@
 }
 
 @media all and (max-width:700px) {
-    .profile__info_edit-button{
+    .profile__info_edit-button {
         width: calc(24px - (700px - 100vw)/380*6);
         height: calc(24px - (700px - 100vw)/380*6);
         margin-bottom: calc(8px - (700px - 100vw)/380*2);
     }
-    
+}
+
+.profile__info_edit-button:hover{
+    opacity: 60%;
 }

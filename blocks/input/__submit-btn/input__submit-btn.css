@@ -20,3 +20,7 @@
         line-height: calc(22px - ((1280px - 100vw) / 960 * (22 - 17)));
     }
 }
+
+.input__submit-btn:hover{
+    opacity: 80%;
+}

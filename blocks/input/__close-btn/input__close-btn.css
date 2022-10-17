@@ -19,3 +19,7 @@
         right: calc(-9% + ((1280px - 100vw) / 960 * 25));
     }
 }
+
+.input__close-btn:hover{
+    opacity: 60%;
+}
