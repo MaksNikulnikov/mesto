@@ -1,7 +1,7 @@
 .profile__edit-button {
     width: 24px;
     height: 24px;
-    background-image: url('/images/pencil_vector.svg');
+    background-image: url('../../../images/pencil_vector.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-color: black;
