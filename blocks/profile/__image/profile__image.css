@@ -14,7 +14,7 @@
 
 @media all and (max-width:920px) {
     .profile__image {
-        margin-left: 20px;
+        margin-left: calc(20px - (920px - 100vw)/600*20);
     }
 
 }

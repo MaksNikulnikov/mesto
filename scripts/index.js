@@ -10,13 +10,13 @@ const form = document.querySelector('.popup__container');
 
 const openPopup = function () {
     popupElement.classList.toggle('popup_opened');
-    popupTextFieldTitle.placeholder = profileTextFieldTitle.textContent;
-    popupTextFieldSubtitle.placeholder = profileTextFieldSubitle.textContent;
+    popupTextFieldTitle.value = profileTextFieldTitle.textContent;
+    popupTextFieldSubtitle.value = profileTextFieldSubitle.textContent;
 }
 
 popupButtonOpen.addEventListener('click', openPopup);
 
-const closePopup = function (){
+const closePopup = function () {
     popupElement.classList.remove('popup_opened');
     popupTextFieldTitle.value = '';
     popupTextFieldSubtitle.value = '';
@@ -24,7 +24,7 @@ const closePopup = function (){
 
 popupButtonClose.addEventListener('click', closePopup);
 
-function formSubmitHandler (evt) {
+function formSubmitHandler(evt) {
     evt.preventDefault();
     profileTextFieldTitle.textContent = popupTextFieldTitle.value;
     profileTextFieldSubitle.textContent = popupTextFieldSubtitle.value;

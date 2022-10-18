@@ -6,7 +6,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
     background-color: white;
     opacity: 100%;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
