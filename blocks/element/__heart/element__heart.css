@@ -1,5 +1,5 @@
 .element__heart {
-    background-image: url('../../../../images/heart_disabled.svg');
+    background-image: url('/images/heart_disabled.svg');
     width: 22px;
     height: 19px;
     border: none;
@@ -7,8 +7,9 @@
 
 .element__heart:hover {
     opacity: 50%;
+    cursor: pointer;
 }
 
 .element__heart:active {
-    background-image: url('../../../../images/heart_enabled.svg');
+    background-image: url('/images/heart_enabled.svg');
 }

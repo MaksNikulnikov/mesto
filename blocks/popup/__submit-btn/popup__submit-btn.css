@@ -23,4 +23,5 @@
 
 .popup__submit-btn:hover {
     opacity: 80%;
+    cursor: pointer;
 }

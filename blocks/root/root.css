@@ -1,6 +1,6 @@
 .root {
     background-color: #000000;
-    margin: 0 auto 0 auto;
+    margin: 0 auto;
     max-width: 1280px;
     min-width: 320px;
     display: flex;

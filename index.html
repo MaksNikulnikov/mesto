@@ -17,69 +17,69 @@
             <img class="profile__image" src="./images/Avatar.png" alt="аватар">
             <div class="profile__info">
                 <h1 class="profile__title">Жак-Ив Кусто</h1>
-                <button class="profile__edit-button"></button>
+                <button type="button" class="profile__edit-button"></button>
                 <p class="profile__subtitle">Исследователь океана</p>
             </div>
-            <button class="profile__add-button"></button>
+            <button type="button" class="profile__add-button"></button>
         </section>
         <section class="elements">
             <ul class="elements__holder">
                 <li class="element">
-                    <figure class="element__image-holder">
+                    <article class="element__image-holder">
                         <img class="element__image" src="./images/katun-river-gc384be032_1280.jpg" alt="река Катунь">
-                        <figcaption class="element__caption">
+                        <div class="element__caption">
                             <h2 class="element__title">река Катунь</h2>
-                            <button class="element__heart"></button>
-                        </figcaption>
-                    </figure>
+                            <button type="button" class="element__heart"></button>
+                        </div>
+                    </article>
                 </li>
                 <li class="element">
-                    <figure class="element__image-holder">
+                    <article class="element__image-holder">
                         <img class="element__image" src="./images/kirill-pershin-1088404-unsplash.jpg"
                             alt="Карачаево-Черкессия">
-                        <figcaption class="element__caption">
+                        <div class="element__caption">
                             <h2 class="element__title">Карачаево-Черкессия</h2>
-                            <button class="element__heart"></button>
-                        </figcaption>
-                    </figure>
+                            <button type="button" class="element__heart"></button>
+                        </div>
+                    </article>
                 </li>
                 <li class="element">
-                    <figure class="element__image-holder">
+                    <article class="element__image-holder">
                         <img class="element__image" src="./images/kirill-pershin-1404681-unsplash.jpg"
                             alt="гора Эльбрус">
-                        <figcaption class="element__caption">
+                        <div class="element__caption">
                             <h2 class="element__title">гора Эльбрус</h2>
-                            <button class="element__heart"></button>
-                        </figcaption>
-                    </figure>
+                            <button type="button" class="element__heart"></button>
+                        </div>
+                    </article>
                 </li>
                 <li class="element">
-                    <figure class="element__image-holder">
+                    <article class="element__image-holder">
                         <img class="element__image" src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Домбай">
-                        <figcaption class="element__caption">
+                        <div class="element__caption">
                             <h2 class="element__title">Домбай</h2>
-                            <button class="element__heart"></button>
-                        </figcaption>
-                    </figure>
+                            <button type="button" class="element__heart"></button>
+                        </div>
+                    </article>
                 </li>
                 <li class="element">
-                    <figure class="element__image-holder">
+                    <article class="element__image-holder">
                         <img class="element__image" src="./images/monastery-g70620a617_1280.jpg"
                             alt="Монастырь в Москве">
-                        <figcaption class="element__caption">
+                        <div class="element__caption">
                             <h2 class="element__title">Монастырь в Москве</h2>
-                            <button class="element__heart"></button>
-                        </figcaption>
-                    </figure>
+                            <button type="button" class="element__heart"></button>
+                        </div>
+                    </article>
                 </li>
                 <li class="element">
-                    <figure class="element__image-holder">
+                    <article class="element__image-holder">
                         <img class="element__image" src="./images/russia-ga1efa0f96_1280.jpg" alt="Байкал зимой">
-                        <figcaption class="element__caption">
+                        <div class="element__caption">
                             <h2 class="element__title">Байкал зимой</h2>
-                            <button class="element__heart"></button>
-                        </figcaption>
-                    </figure>
+                            <button type="button" class="element__heart"></button>
+                        </div>
+                    </article>
                 </li>
             </ul>
         </section>
@@ -88,15 +88,17 @@
         <p class="footer__copyright" lang="en">© 2022 Mesto Russia</p>
     </footer>
     <section class="popup">
-        <form class="popup__container">
+        <div class="popup__container">
             <button type="button" class="popup__close-btn"></button>
             <h2 class="popup__title">Редактировать профиль</h2>
-            <input type="text" value="" class="popup__text popup__text_type_name">
-            <input type="text" value="" class="popup__text popup__text_type_caption">
-            <button type="submit" class="popup__submit-btn">
-                Сохранить
-            </button>
-        </form>
+            <form name="formProfile" action="">
+                <input name="inputToProfileTitle" type="text" value="" class="popup__text popup__text_type_name">
+                <input name="inputToProfileSubtitle" type="text" value="" class="popup__text popup__text_type_caption">
+                <button type="submit" class="popup__submit-btn">
+                    Сохранить
+                </button>
+            </form>
+        </div>
     </section>
     <script src="./scripts/index.js"></script>
 </body>
