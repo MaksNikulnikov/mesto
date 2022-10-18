@@ -1,11 +1,11 @@
 const popupElement = document.querySelector('.popup');
-const popupButtonOpen = document.querySelector('.profile__info_edit-button');
+const popupButtonOpen = document.querySelector('.profile__edit-button');
 const popupButtonClose = popupElement.querySelector('.popup__close-btn');
 const popupButtonSave = popupElement.querySelector('.popup__submit-btn');
 const popupTextFieldTitle = popupElement.querySelector('.popup__text_type_name');
 const popupTextFieldSubtitle = popupElement.querySelector('.popup__text_type_caption');
-const profileTextFieldTitle = document.querySelector('.profile__info_title');
-const profileTextFieldSubitle = document.querySelector('.profile__info_subtitle');
+const profileTextFieldTitle = document.querySelector('.profile__title');
+const profileTextFieldSubitle = document.querySelector('.profile__subtitle');
 const form = document.querySelector('.popup__container');
 
 const openPopup = function () {

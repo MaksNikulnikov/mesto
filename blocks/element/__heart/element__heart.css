@@ -1,14 +1,14 @@
-.elements__element_heart {
+.element__heart {
     background-image: url('../../../../images/heart_disabled.svg');
     width: 22px;
     height: 19px;
     border: none;
 }
 
-.elements__element_heart:hover {
+.element__heart:hover {
     opacity: 50%;
 }
 
-.elements__element_heart:active {
+.element__heart:active {
     background-image: url('../../../../images/heart_enabled.svg');
 }
