@@ -1,12 +1,17 @@
 // popup profile
-const popupElement = document.querySelector('.popup');
-const popupButtonOpen = document.querySelector('.profile__edit-button');
-const popupButtonClose = popupElement.querySelector('.popup__close-btn');
-const popupTextFieldTitle = popupElement.querySelector('.popup__text_type_name');
-const popupTextFieldSubtitle = popupElement.querySelector('.popup__text_type_caption');
+const popupProfileElement = document.querySelector('.popup_add-profile');
+const popupProfileButtonOpen = document.querySelector('.profile__edit-button');
+const popupProfileButtonClose = popupProfileElement.querySelector('.popup__close-btn');
+const popupProfileTextFieldTitle = popupProfileElement.querySelector('.popup__text_type_name');
+const popupProfileTextFieldSubtitle = popupProfileElement.querySelector('.popup__text_type_caption');
 const profileTextFieldTitle = document.querySelector('.profile__title');
 const profileTextFieldSubitle = document.querySelector('.profile__subtitle');
-const form = document.querySelector('.popup__container');
+const formProfile = document.querySelector('.popup__container');
+
+//popup add cards
+const popupAddCardsElement = document.querySelector('.popup_add-card');
+const popupAddCardButtonOpen = document.querySelector('.profile__add-button');
+const popupAddcardButtonClose = popupAddCardsElement.querySelector('.popup__close-btn');
 
 // section elements
 const initialCards = [
@@ -38,23 +43,30 @@ const initialCards = [
 const cardsTemplate = document.querySelector('.element__template').content;
 const cardsContainer = document.querySelector('.elements__holder');
 
+//popup add profile
 
-const openPopup = function () {
+const openPopup = function (popupElement) {
+    console.log('hello');
     popupElement.classList.add('popup_opened');
-    popupTextFieldTitle.value = profileTextFieldTitle.textContent;
-    popupTextFieldSubtitle.value = profileTextFieldSubitle.textContent;
+    if (popupElement.classList.value.includes('profile')) {
+        popupProfileTextFieldTitle.value = profileTextFieldTitle.textContent;
+        popupProfileTextFieldSubtitle.value = profileTextFieldSubitle.textContent;
+    }
+
 }
 
-const closePopup = function () {
+const closePopup = function (popupElement) {
     popupElement.classList.remove('popup_opened');
 }
 
-const formSubmitHandler = function (evt) {
+const formProfileSubmitHandler = function (evt) {
     evt.preventDefault();
-    profileTextFieldTitle.textContent = popupTextFieldTitle.value;
-    profileTextFieldSubitle.textContent = popupTextFieldSubtitle.value;
-    closePopup();
+    profileTextFieldTitle.textContent = popupProfileTextFieldTitle.value;
+    profileTextFieldSubitle.textContent = popupProfileTextFieldSubtitle.value;
+    closePopup(popupProfileElement);
 }
+
+//section elements
 
 const initialiseCards = function (initialElements, initialContainer) {
 
@@ -71,15 +83,30 @@ const initialiseCards = function (initialElements, initialContainer) {
     }
 
     initialElements.forEach(element => {
-        console.log(element.name,element.link);
-        const card = makeCards(element.link,element.name);
-        renderCards(card,initialContainer);
+        console.log(element.name, element.link);
+        const card = makeCards(element.link, element.name);
+        renderCards(card, initialContainer);
     });
 
 }
 
 initialiseCards(initialCards, cardsContainer);
 
-popupButtonOpen.addEventListener('click', openPopup);
-popupButtonClose.addEventListener('click', closePopup);
-form.addEventListener('submit', formSubmitHandler); 
+//popup add profile
+
+popupProfileButtonOpen.addEventListener('click', function(){
+    openPopup(popupProfileElement);
+});
+popupProfileButtonClose.addEventListener('click', function(){
+    closePopup(popupProfileElement);
+});
+formProfile.addEventListener('submit', formProfileSubmitHandler); 
+
+//popup add cards
+
+popupAddCardButtonOpen.addEventListener('click', function(){
+    openPopup(popupAddCardsElement);
+})
+popupAddcardButtonClose.addEventListener('click', function(){
+    closePopup(popupAddCardsElement);
+})
