@@ -1,4 +1,5 @@
 // popup profile
+
 const popupProfileElement = document.querySelector('.popup_add-profile');
 const popupProfileButtonOpen = document.querySelector('.profile__edit-button');
 const popupProfileButtonClose = popupProfileElement.querySelector('.popup__close-btn');
@@ -9,6 +10,7 @@ const profileTextFieldSubitle = document.querySelector('.profile__subtitle');
 const formProfile = popupProfileElement.querySelector('.popup__container');
 
 //popup add cards
+
 const popupAddCardElement = document.querySelector('.popup_add-card');
 const popupAddCardButtonOpen = document.querySelector('.profile__add-button');
 const popupAddcardButtonClose = popupAddCardElement.querySelector('.popup__close-btn');
@@ -17,6 +19,7 @@ const popupAddCardTextFieldImageURL = popupAddCardElement.querySelector('.popup_
 const formAddCard = popupAddCardElement.querySelector('.popup__container');
 
 // section elements
+
 const initialCards = [
     {
         name: 'Архыз',
@@ -49,7 +52,6 @@ const cardsContainer = document.querySelector('.elements__holder');
 //popups open close
 
 const openPopup = function (popupElement) {
-    console.log('hello');
     popupElement.classList.add('popup_opened');
     if (popupElement.classList.value.includes('profile')) {
         popupProfileTextFieldTitle.value = profileTextFieldTitle.textContent;
@@ -74,12 +76,21 @@ const formProfileSubmitHandler = function (evt) {
     closePopup(popupProfileElement);
 }
 
+//cards
+
+const addlikeListener = function (card) {
+    const heartElement = card.querySelector('.element__heart');
+    heartElement.addEventListener('click', function(){
+        heartElement.classList.toggle('element__heart_clicked');
+    });
+}
+
 //cards factory
 
 const createCards = function (cardName, cardImgURL, container, isAppendRender) {
-    const makeCards = function (urlImage, descriptionImage) {
+    const makeCards = function (descriptionImage, URlImage) {
         const card = cardsTemplate.cloneNode(true);
-        card.querySelector('.element__image').src = urlImage;
+        card.querySelector('.element__image').src = URlImage;
         card.querySelector('.element__image').alt = descriptionImage;
         card.querySelector('.element__title').textContent = descriptionImage;
         return card;
@@ -93,7 +104,8 @@ const createCards = function (cardName, cardImgURL, container, isAppendRender) {
         }
     }
 
-    const card = makeCards(cardImgURL, cardName);
+    const card = makeCards(cardName, cardImgURL);
+    addlikeListener(card);
     renderCards(card, container);
 
 }
@@ -101,7 +113,6 @@ const createCards = function (cardName, cardImgURL, container, isAppendRender) {
 initialCards.forEach((el) => {
     createCards(el.name, el.link, cardsContainer, true);
 });
-
 
 //popup add card
 
@@ -133,3 +144,5 @@ popupAddcardButtonClose.addEventListener('click', function () {
     closePopup(popupAddCardElement);
 })
 formAddCard.addEventListener('submit', formAddCardSubmitHandler); 
+
+

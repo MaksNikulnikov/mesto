@@ -10,7 +10,3 @@
     opacity: 50%;
     cursor: pointer;
 }
-
-.element__heart:active {
-    background-image: url('../../../images/heart_enabled.svg');
-}
