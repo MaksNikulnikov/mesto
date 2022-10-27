@@ -85,6 +85,13 @@ const addlikeListener = function (card) {
     });
 }
 
+const addRemoveListener = function (card) {
+    const removeElement = card.querySelector('.element__delete');
+    removeElement.addEventListener('click', function(){
+        removeElement.closest('.element').remove();
+    });
+}
+
 //cards factory
 
 const createCards = function (cardName, cardImgURL, container, isAppendRender) {
@@ -106,6 +113,7 @@ const createCards = function (cardName, cardImgURL, container, isAppendRender) {
 
     const card = makeCards(cardName, cardImgURL);
     addlikeListener(card);
+    addRemoveListener(card);
     renderCards(card, container);
 
 }
@@ -144,5 +152,3 @@ popupAddcardButtonClose.addEventListener('click', function () {
     closePopup(popupAddCardElement);
 })
 formAddCard.addEventListener('submit', formAddCardSubmitHandler); 
-
-
