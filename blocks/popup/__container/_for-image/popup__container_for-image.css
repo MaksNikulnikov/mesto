@@ -1,0 +1,12 @@
+.popup__container_for-image {
+    background: none;
+    max-width: 75vw;
+    width: max-content;
+    min-height: max-content;
+    max-height: 75vh;
+    border-radius: 0;
+    top: calc(50vh - -12.5px);
+    display: grid;
+    grid-template-rows: 1fr 15px;
+    grid-gap: 10px;
+}

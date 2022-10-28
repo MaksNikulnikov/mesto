@@ -18,6 +18,13 @@ const popupAddCardTextFieldTitle = popupAddCardElement.querySelector('.popup__te
 const popupAddCardTextFieldImageURL = popupAddCardElement.querySelector('.popup__text_type_url');
 const formAddCard = popupAddCardElement.querySelector('.popup__container');
 
+//popup view image
+
+const popupViewImageElement = document.querySelector('.popup_view-image');
+const popupViewImageImage = popupViewImageElement.querySelector('.popup__image');
+const popupViewImageDescription = popupViewImageElement.querySelector('.popup__figcaption');
+const popupViewImageButtonClose = popupViewImageElement.querySelector('.popup__close-btn');
+
 // section elements
 
 const initialCards = [
@@ -80,15 +87,29 @@ const formProfileSubmitHandler = function (evt) {
 
 const addlikeListener = function (card) {
     const heartElement = card.querySelector('.element__heart');
-    heartElement.addEventListener('click', function(){
+    heartElement.addEventListener('click', function () {
         heartElement.classList.toggle('element__heart_clicked');
     });
 }
 
 const addRemoveListener = function (card) {
     const removeElement = card.querySelector('.element__delete');
-    removeElement.addEventListener('click', function(){
+    removeElement.addEventListener('click', function () {
         removeElement.closest('.element').remove();
+    });
+}
+
+const renderPopupViewImage = function (card) {
+    popupViewImageImage.src = card.querySelector('.element__image').src;
+    popupViewImageImage.alt = card.querySelector('.element__caption').textContent;
+    popupViewImageDescription.textContent = card.querySelector('.element__caption').textContent;
+}
+
+const makeImageClicable = function (card) {
+    const image = card.querySelector('.element__image');
+    image.addEventListener('click', function (evt) {
+        renderPopupViewImage(evt.target.closest('.element'));
+        openPopup(popupViewImageElement);
     });
 }
 
@@ -114,6 +135,7 @@ const createCards = function (cardName, cardImgURL, container, isAppendRender) {
     const card = makeCards(cardName, cardImgURL);
     addlikeListener(card);
     addRemoveListener(card);
+    makeImageClicable(card);
     renderCards(card, container);
 
 }
@@ -152,3 +174,9 @@ popupAddcardButtonClose.addEventListener('click', function () {
     closePopup(popupAddCardElement);
 })
 formAddCard.addEventListener('submit', formAddCardSubmitHandler); 
+
+//popup view image
+
+popupViewImageButtonClose.addEventListener('click', function(){
+    closePopup(popupViewImageElement);
+})
