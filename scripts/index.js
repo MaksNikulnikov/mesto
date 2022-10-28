@@ -85,6 +85,22 @@ const formProfileSubmitHandler = function (evt) {
 
 //cards
 
+const makeCards = function (descriptionImage, URlImage) {
+    const card = cardsTemplate.cloneNode(true);
+    card.querySelector('.element__image').src = URlImage;
+    card.querySelector('.element__image').alt = descriptionImage;
+    card.querySelector('.element__title').textContent = descriptionImage;
+    return card;
+}
+
+const renderCardAppend = function (card) {
+    cardsContainer.append(card);
+}
+
+const renderCardPrepend = function (card) {
+    cardsContainer.prepend(card);
+}
+
 const addlikeListener = function (card) {
     const heartElement = card.querySelector('.element__heart');
     heartElement.addEventListener('click', function () {
@@ -115,33 +131,17 @@ const makeImageClicable = function (card) {
 
 //cards factory
 
-const createCards = function (cardName, cardImgURL, container, isAppendRender) {
-    const makeCards = function (descriptionImage, URlImage) {
-        const card = cardsTemplate.cloneNode(true);
-        card.querySelector('.element__image').src = URlImage;
-        card.querySelector('.element__image').alt = descriptionImage;
-        card.querySelector('.element__title').textContent = descriptionImage;
-        return card;
-    }
-
-    const renderCards = function (card, container) {
-        if (isAppendRender) {
-            container.append(card);
-        } else {
-            container.prepend(card);
-        }
-    }
-
+const createCard = function (cardName, cardImgURL) {
     const card = makeCards(cardName, cardImgURL);
     addlikeListener(card);
     addRemoveListener(card);
     makeImageClicable(card);
-    renderCards(card, container);
-
+    return card;
 }
 
 initialCards.forEach((el) => {
-    createCards(el.name, el.link, cardsContainer, true);
+    const card = createCard(el.name, el.link);
+    renderCardAppend(card);
 });
 
 //popup add card
@@ -150,8 +150,8 @@ const formAddCardSubmitHandler = function (evt) {
     evt.preventDefault();
     const cardName = popupAddCardTextFieldTitle.value;
     const cardLink = popupAddCardTextFieldImageURL.value;
-
-    createCards(cardName, cardLink, cardsContainer, false);
+    const card = createCard(cardName, cardLink);
+    renderCardPrepend(card);
     closePopup(popupAddCardElement);
 }
 
@@ -173,10 +173,10 @@ popupAddCardButtonOpen.addEventListener('click', function () {
 popupAddcardButtonClose.addEventListener('click', function () {
     closePopup(popupAddCardElement);
 })
-formAddCard.addEventListener('submit', formAddCardSubmitHandler); 
+formAddCard.addEventListener('submit', formAddCardSubmitHandler);
 
 //popup view image
 
-popupViewImageButtonClose.addEventListener('click', function(){
+popupViewImageButtonClose.addEventListener('click', function () {
     closePopup(popupViewImageElement);
 })
