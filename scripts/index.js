@@ -27,32 +27,6 @@ const popupViewImageButtonClose = popupViewImageElement.querySelector('.popup__c
 
 // section elements
 
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
 const cardsTemplate = document.querySelector('.element__template').content;
 const cardsContainer = document.querySelector('.elements__holder');
 
@@ -60,18 +34,21 @@ const cardsContainer = document.querySelector('.elements__holder');
 
 const openPopup = function (popupElement) {
     popupElement.classList.add('popup_opened');
-    if (popupElement.classList.value.includes('profile')) {
-        popupProfileTextFieldTitle.value = profileTextFieldTitle.textContent;
-        popupProfileTextFieldSubtitle.value = profileTextFieldSubitle.textContent;
-    }
+}
+
+const openEditProfilePopup = function (popupElement) {
+    popupProfileTextFieldTitle.value = profileTextFieldTitle.textContent;
+    popupProfileTextFieldSubtitle.value = profileTextFieldSubitle.textContent;
+    openPopup(popupElement);
 }
 
 const closePopup = function (popupElement) {
     popupElement.classList.remove('popup_opened');
-    if (popupElement.classList.value.includes('add-card')) {
-        popupAddCardTextFieldTitle.value = '';
-        popupAddCardTextFieldImageURL.value = '';
-    }
+}
+
+const closeAddCardPopup = function (popupElement) {
+    popupElement.querySelector('.popup__form').reset();
+    closePopup(popupElement);
 }
 
 //popup add profile
@@ -84,14 +61,6 @@ const formProfileSubmitHandler = function (evt) {
 }
 
 //cards
-
-const makeCards = function (descriptionImage, URlImage) {
-    const card = cardsTemplate.cloneNode(true);
-    card.querySelector('.element__image').src = URlImage;
-    card.querySelector('.element__image').alt = descriptionImage;
-    card.querySelector('.element__title').textContent = descriptionImage;
-    return card;
-}
 
 const renderCardAppend = function (card) {
     cardsContainer.append(card);
@@ -132,7 +101,13 @@ const makeImageClicable = function (card) {
 //cards factory
 
 const createCard = function (cardName, cardImgURL) {
-    const card = makeCards(cardName, cardImgURL);
+    const card = cardsTemplate.cloneNode(true);
+
+    const cardImage  = card.querySelector('.element__image');
+    cardImage.src = cardImgURL;
+    cardImage.alt = cardName;
+    card.querySelector('.element__title').textContent = cardName;
+
     addlikeListener(card);
     addRemoveListener(card);
     makeImageClicable(card);
@@ -152,13 +127,13 @@ const formAddCardSubmitHandler = function (evt) {
     const cardLink = popupAddCardTextFieldImageURL.value;
     const card = createCard(cardName, cardLink);
     renderCardPrepend(card);
-    closePopup(popupAddCardElement);
+    closeAddCardPopup(popupAddCardElement);
 }
 
 //popup add profile
 
 popupProfileButtonOpen.addEventListener('click', function () {
-    openPopup(popupProfileElement);
+    openEditProfilePopup(popupProfileElement);
 });
 popupProfileButtonClose.addEventListener('click', function () {
     closePopup(popupProfileElement);
@@ -171,7 +146,7 @@ popupAddCardButtonOpen.addEventListener('click', function () {
     openPopup(popupAddCardElement);
 })
 popupAddcardButtonClose.addEventListener('click', function () {
-    closePopup(popupAddCardElement);
+    closeAddCardPopup(popupAddCardElement);
 })
 formAddCard.addEventListener('submit', formAddCardSubmitHandler);
 
