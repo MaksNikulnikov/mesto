@@ -1,0 +1,13 @@
+.popup__error_visible {
+    display: inherit;
+    font-family: 'Inter', Arial, sans-serif;
+    color: red;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    margin-top: 27px;
+    position: absolute;
+    max-width: inherit;
+    left: 0;
+    top: 0;
+}
