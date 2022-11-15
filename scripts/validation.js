@@ -68,5 +68,3 @@ const enableValidation = ({ formSelector, ...rest }) => {
     setEventListeners(form, rest)
   })
 }
-
- 

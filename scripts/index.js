@@ -32,8 +32,15 @@ const cardsContainer = document.querySelector('.elements__holder');
 
 //popups open close
 
+const handleEscUp = function (evt) {
+    if (evt.key === 'Escape') {
+        closePopup(document.querySelector('.popup_opened'))
+    }
+}
+
 const openPopup = function (popupElement) {
     popupElement.classList.add('popup_opened');
+    document.addEventListener('keyup', handleEscUp)
 }
 
 const openEditProfilePopup = function (popupElement) {
@@ -44,6 +51,7 @@ const openEditProfilePopup = function (popupElement) {
 
 const closePopup = function (popupElement) {
     popupElement.classList.remove('popup_opened');
+    document.removeEventListener('keyup', handleEscUp)
 }
 
 const closeAddCardPopup = function (popupElement) {
@@ -52,16 +60,18 @@ const closeAddCardPopup = function (popupElement) {
 }
 
 const setListenerClosePopupOverleyClicked = function (...popupElements) {
-    popupElements.forEach(popupElement=>{
+    popupElements.forEach(popupElement => {
         popupElement.addEventListener('click', (ev) => {
-            if(ev.target === ev.currentTarget){
+            if (ev.target === ev.currentTarget) {
                 closePopup(popupElement)
             }
-        })  
+        })
     })
 }
 
 setListenerClosePopupOverleyClicked(popupProfileElement, popupAddCardElement, popupViewImageElement)
+
+
 
 //popup add profile
 
@@ -115,7 +125,7 @@ const makeImageClicable = function (card) {
 const createCard = function (cardName, cardImgURL) {
     const card = cardsTemplate.cloneNode(true);
 
-    const cardImage  = card.querySelector('.element__image');
+    const cardImage = card.querySelector('.element__image');
     cardImage.src = cardImgURL;
     cardImage.alt = cardName;
     card.querySelector('.element__title').textContent = cardName;
@@ -179,4 +189,4 @@ enableValidation({
     parrentInputAndErrorSelector: '.popup__form_section',
     inputErrorSelector: '.popup__text_type_error',
     errorClass: 'popup__error_visible'
-  });
+});
