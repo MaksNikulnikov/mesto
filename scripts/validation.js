@@ -1,6 +1,4 @@
-
-
-const toggleButtonState = (inputList, submitButton, {inactiveButtonClass, ...rest}) => {
+const toggleButtonState = (inputList, submitButton, { inactiveButtonClass, ...rest }) => {
   const hasInvalidInput = inputList.some(el => !el.validity.valid)
 
   if (hasInvalidInput) {
@@ -12,8 +10,7 @@ const toggleButtonState = (inputList, submitButton, {inactiveButtonClass, ...res
   }
 }
 
-
-const checkInputValidity = (inputElement,{parrentInputAndErrorSelector, inputErrorSelector, ...rest}) => {
+const checkInputValidity = (inputElement, { parrentInputAndErrorSelector, inputErrorSelector, ...rest }) => {
   const isValid = inputElement.validity.valid,
     inputSection = inputElement.closest(parrentInputAndErrorSelector),
     inputError = inputSection.querySelector(inputErrorSelector),
@@ -28,27 +25,29 @@ const checkInputValidity = (inputElement,{parrentInputAndErrorSelector, inputErr
   }
 }
 
-const showErrorInput = (inputError, errorMessage, {errorClass, ...rest}) => {
+const showErrorInput = (inputError, errorMessage, { errorClass, ...rest }) => {
   inputError.textContent = errorMessage
   inputError.classList.add(errorClass)
 }
 
-const hideErrorInput = (inputError, {errorClass, ...rest}) => {
+const hideErrorInput = (inputError, { errorClass, ...rest }) => {
   inputError.textContent = ''
   inputError.classList.remove(errorClass)
 }
 
-const markInputAsInvalid = (inputError, {inputInvalidClass, ...rest}) => {
+const markInputAsInvalid = (inputError, { inputInvalidClass, ...rest }) => {
   inputError.classList.add(inputInvalidClass)
 }
 
-const unmarkInputAsInvalid = (inputError, {inputInvalidClass, ...rest}) => {
+const unmarkInputAsInvalid = (inputError, { inputInvalidClass, ...rest }) => {
   inputError.classList.remove(inputInvalidClass)
 }
 
-const setEventListeners = (formElement, {inputSelector, submitButtonSelector, ...rest}) => {
+const setEventListeners = (formElement, { inputSelector, submitButtonSelector, ...rest }) => {
   const inputList = Array.from(formElement.querySelectorAll(inputSelector)),
     submitButton = formElement.querySelector(submitButtonSelector)
+
+
 
   formElement.addEventListener('input', (event) => {
     event.preventDefault()
@@ -64,7 +63,7 @@ const setEventListeners = (formElement, {inputSelector, submitButtonSelector, ..
   })
 }
 
-const enableValidation = ({formSelector, ...rest}) =>{
+const enableValidation = ({ formSelector, ...rest }) => {
   const formList = document.querySelectorAll(formSelector)
 
   formList.forEach(form => {
@@ -72,13 +71,4 @@ const enableValidation = ({formSelector, ...rest}) =>{
   })
 }
 
-enableValidation({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__text',
-    inputInvalidClass: 'popup__text_invalid',
-    submitButtonSelector: '.popup__submit-btn',
-    inactiveButtonClass: 'popup__submit-btn_disabled',
-    parrentInputAndErrorSelector: '.popup__form_section',
-    inputErrorSelector: '.popup__text_type_error',
-    errorClass: 'popup__error_visible'
-  }); 
+ 

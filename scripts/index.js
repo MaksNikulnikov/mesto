@@ -155,3 +155,14 @@ formAddCard.addEventListener('submit', formAddCardSubmitHandler);
 popupViewImageButtonClose.addEventListener('click', function () {
     closePopup(popupViewImageElement);
 })
+
+enableValidation({
+    formSelector: '.popup__form',
+    inputSelector: '.popup__text',
+    inputInvalidClass: 'popup__text_invalid',
+    submitButtonSelector: '.popup__submit-btn',
+    inactiveButtonClass: 'popup__submit-btn_disabled',
+    parrentInputAndErrorSelector: '.popup__form_section',
+    inputErrorSelector: '.popup__text_type_error',
+    errorClass: 'popup__error_visible'
+  });
