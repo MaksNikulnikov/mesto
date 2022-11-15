@@ -47,8 +47,6 @@ const setEventListeners = (formElement, { inputSelector, submitButtonSelector, .
   const inputList = Array.from(formElement.querySelectorAll(inputSelector)),
     submitButton = formElement.querySelector(submitButtonSelector)
 
-
-
   formElement.addEventListener('input', (event) => {
     event.preventDefault()
   })

@@ -51,6 +51,18 @@ const closeAddCardPopup = function (popupElement) {
     closePopup(popupElement);
 }
 
+const setListenerClosePopupOverleyClicked = function (...popupElements) {
+    popupElements.forEach(popupElement=>{
+        popupElement.addEventListener('click', (ev) => {
+            if(ev.target === ev.currentTarget){
+                closePopup(popupElement)
+            }
+        })  
+    })
+}
+
+setListenerClosePopupOverleyClicked(popupProfileElement, popupAddCardElement, popupViewImageElement)
+
 //popup add profile
 
 const formProfileSubmitHandler = function (evt) {
@@ -155,6 +167,8 @@ formAddCard.addEventListener('submit', formAddCardSubmitHandler);
 popupViewImageButtonClose.addEventListener('click', function () {
     closePopup(popupViewImageElement);
 })
+
+//validation
 
 enableValidation({
     formSelector: '.popup__form',

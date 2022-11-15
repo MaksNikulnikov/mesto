@@ -8,4 +8,5 @@
     white-space: nowrap;
     overflow: hidden;
     max-width: 50%;
+    pointer-events: none;
 }
