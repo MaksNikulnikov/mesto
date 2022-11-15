@@ -1,11 +1,11 @@
-.popup__form_section {
+.popup__form-section {
     margin-bottom: 29px;
     max-width: 358px;
     position: relative;
 }
 
 @media all and (max-width:1280px) {
-    .popup__form_section {
+    .popup__form-section {
         max-width: calc(358px - ((1280px - 100vw) / 960 * (358 - 238)));
     }
 }
