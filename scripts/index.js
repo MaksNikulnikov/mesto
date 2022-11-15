@@ -185,7 +185,7 @@ enableValidation({
     inputSelector: '.popup__text',
     parrentInputAndErrorSelector: '.popup__form-section',    
     submitButtonSelector: '.popup__submit-btn',
-    inputErrorSelector: '.popup__text_type_error',   
+    inputErrorSelector: '.popup__error',   
     inactiveButtonClass: 'popup__submit-btn_disabled',      
     errorClass: 'popup__error_visible',
     inputInvalidClass: 'popup__text_invalid'
