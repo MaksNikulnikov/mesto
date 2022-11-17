@@ -1,4 +1,4 @@
-const toggleButtonState = (inputList, submitButton, { inactiveButtonClass, ...rest }) => {
+const toggleButtonState = (inputList, submitButton, inactiveButtonClass) => {
   const hasInvalidInput = inputList.some(el => !el.validity.valid)
 
   if (hasInvalidInput) {
@@ -8,6 +8,10 @@ const toggleButtonState = (inputList, submitButton, { inactiveButtonClass, ...re
     submitButton.removeAttribute('disabled')
     submitButton.classList.remove(inactiveButtonClass)
   }
+}
+const disableSubmitButton = (submitButton, inactiveButtonClass) => {
+  submitButton.classList.add(inactiveButtonClass)
+  submitButton.setAttribute('disabled', true)
 }
 
 const checkInputValidity = (inputElement, { parrentInputAndErrorSelector, inputErrorSelector, ...rest }) => {
@@ -43,20 +47,21 @@ const unmarkInputAsInvalid = (inputError, { inputInvalidClass, ...rest }) => {
   inputError.classList.remove(inputInvalidClass)
 }
 
-const setEventListeners = (formElement, { inputSelector, submitButtonSelector, ...rest }) => {
+const setEventListeners = (formElement, { inputSelector, submitButtonSelector, inactiveButtonClass, ...rest }) => {
   const inputList = Array.from(formElement.querySelectorAll(inputSelector)),
     submitButton = formElement.querySelector(submitButtonSelector)
 
-  formElement.addEventListener('input', (event) => {
+  formElement.addEventListener('submit', (event) => {
     event.preventDefault()
+    disableSubmitButton(submitButton, inactiveButtonClass)
   })
 
-  toggleButtonState(inputList, submitButton, rest)
+  toggleButtonState(inputList, submitButton, inactiveButtonClass)
 
   inputList.forEach((inputEl) => {
     inputEl.addEventListener('input', () => {
       checkInputValidity(inputEl, rest)
-      toggleButtonState(inputList, submitButton, rest)
+      toggleButtonState(inputList, submitButton, inactiveButtonClass)
     })
   })
 }

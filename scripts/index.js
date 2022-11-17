@@ -59,7 +59,7 @@ const closeAddCardPopup = function (popupElement) {
     closePopup(popupElement);
 }
 
-const setListenerClosePopupOverleyClicked = function (...popupElements) {
+const setListenerClosePopupOverleyClicked = function (popupElements) {
     popupElements.forEach(popupElement => {
         popupElement.addEventListener('click', (ev) => {
             if (ev.target === ev.currentTarget) {
@@ -69,9 +69,7 @@ const setListenerClosePopupOverleyClicked = function (...popupElements) {
     })
 }
 
-setListenerClosePopupOverleyClicked(popupProfileElement, popupAddCardElement, popupViewImageElement)
-
-
+setListenerClosePopupOverleyClicked(document.querySelectorAll('.popup'))
 
 //popup add profile
 
@@ -180,13 +178,4 @@ popupViewImageButtonClose.addEventListener('click', function () {
 
 //validation
 
-enableValidation({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__text',
-    parrentInputAndErrorSelector: '.popup__form-section',    
-    submitButtonSelector: '.popup__submit-btn',
-    inputErrorSelector: '.popup__error',   
-    inactiveButtonClass: 'popup__submit-btn_disabled',      
-    errorClass: 'popup__error_visible',
-    inputInvalidClass: 'popup__text_invalid'
-});
+enableValidation(validationConfig);
