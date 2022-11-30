@@ -8,3 +8,5 @@ const validationConfig = {
     errorClass: 'popup__error_visible',
     inputInvalidClass: 'popup__text_invalid' 
 }
+
+export default validationConfig;

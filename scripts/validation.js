@@ -73,3 +73,5 @@ const enableValidation = ({ formSelector, ...rest }) => {
     setEventListeners(form, rest)
   })
 }
+
+export default enableValidation;

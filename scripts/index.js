@@ -1,3 +1,8 @@
+import validationConfig from './config.js';
+import initialCards from './constants.js';
+import enableValidation from './validation.js';
+import Card from './card.js';
+
 // popup profile
 
 const popupProfileElement = document.querySelector('.popup_add-profile');
@@ -90,20 +95,6 @@ const renderCardPrepend = function (card) {
     cardsContainer.prepend(card);
 }
 
-const addlikeListener = function (card) {
-    const heartElement = card.querySelector('.element__heart');
-    heartElement.addEventListener('click', function () {
-        heartElement.classList.toggle('element__heart_clicked');
-    });
-}
-
-const addRemoveListener = function (card) {
-    const removeElement = card.querySelector('.element__delete');
-    removeElement.addEventListener('click', function () {
-        removeElement.closest('.element').remove();
-    });
-}
-
 const renderPopupViewImage = function (card) {
     popupViewImageImage.src = card.querySelector('.element__image').src;
     popupViewImageImage.alt = card.querySelector('.element__caption').textContent;
@@ -118,24 +109,9 @@ const makeImageClicable = function (card) {
     });
 }
 
-//cards factory
-
-const createCard = function (cardName, cardImgURL) {
-    const card = cardsTemplate.cloneNode(true);
-
-    const cardImage = card.querySelector('.element__image');
-    cardImage.src = cardImgURL;
-    cardImage.alt = cardName;
-    card.querySelector('.element__title').textContent = cardName;
-
-    addlikeListener(card);
-    addRemoveListener(card);
-    makeImageClicable(card);
-    return card;
-}
-
 initialCards.forEach((el) => {
-    const card = createCard(el.name, el.link);
+    const card = new Card(el.name, el.link, cardsTemplate).getInstance();
+    makeImageClicable(card);
     renderCardAppend(card);
 });
 
@@ -145,7 +121,8 @@ const formAddCardSubmitHandler = function (evt) {
     evt.preventDefault();
     const cardName = popupAddCardTextFieldTitle.value;
     const cardLink = popupAddCardTextFieldImageURL.value;
-    const card = createCard(cardName, cardLink);
+    const card = new Card(cardName, cardLink, cardsTemplate).getInstance();
+    makeImageClicable(card);
     renderCardPrepend(card);
     closeAddCardPopup(popupAddCardElement);
 }
