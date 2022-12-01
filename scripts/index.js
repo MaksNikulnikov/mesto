@@ -1,7 +1,7 @@
 import validationConfig from './config.js';
 import initialCards from './constants.js';
-import enableValidation from './validation.js';
 import Card from './card.js';
+import FormValidator from './formValidator.js';
 
 // popup profile
 
@@ -155,4 +155,7 @@ popupViewImageButtonClose.addEventListener('click', function () {
 
 //validation
 
-enableValidation(validationConfig);
+const formList = document.querySelectorAll(validationConfig.formSelector)
+formList.forEach(form=>{
+    new FormValidator(validationConfig, form).enableValidation();
+})
