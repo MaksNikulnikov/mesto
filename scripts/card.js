@@ -1,34 +1,41 @@
 export default class Card {
-    constructor(cardName, cardImgURL, cardsTemplate){
-        this.cardName = cardName;
-        this.cardImgURL = cardImgURL;
-        this.cardsTemplate = cardsTemplate;
+    constructor(cardData, cardsTemplate) {
+        this._cardName = cardData.cardName;
+        this._cardImgURL = cardData.cardImgURL;
+        this._cardsTemplate = cardsTemplate;
     }
 
-    _addlikeListener(card) {
-        const heartElement = card.querySelector('.element__heart');
+    _addLikeListener() {
+        const heartElement = this._card.querySelector('.element__heart');
         heartElement.addEventListener('click', function () {
             heartElement.classList.toggle('element__heart_clicked');
         });
     }
-    
-    _addRemoveListener(card) {
-        const removeElement = card.querySelector('.element__delete');
-        removeElement.addEventListener('click', function () {
-            removeElement.closest('.element').remove();
+
+    _addRemoveListener() {
+        const buttonDelete = this._card.querySelector('.element__delete');
+        buttonDelete.addEventListener('click', function () {
+            buttonDelete.closest('.element').remove();
         });
     }
-    
-    getInstance() {
-        const card = this.cardsTemplate.cloneNode(true);
-    
-        const cardImage = card.querySelector('.element__image');
-        cardImage.src = this.cardImgURL;
-        cardImage.alt = this.cardName;
-        card.querySelector('.element__title').textContent = this.cardName;
-    
-        this._addlikeListener(card);
-        this._addRemoveListener(card);
-        return card;
+
+    _makeImageClicable(renderPopupViewImage) {
+        const image = this._card.querySelector('.element__image');
+        image.addEventListener('click', function (evt) {renderPopupViewImage(evt.target.closest('.element'));
+        });
+    }
+
+    createCard(renderPopupViewImage) {
+        this._card = this._cardsTemplate.cloneNode(true);       
+
+        const cardImage = this._card.querySelector('.element__image');
+        cardImage.src = this._cardImgURL;
+        cardImage.alt = this._cardName;
+        this._card.querySelector('.element__title').textContent = this._cardName;
+
+        this._addLikeListener();
+        this._addRemoveListener();
+        this._makeImageClicable(renderPopupViewImage);
+        return this._card;
     }
 }
