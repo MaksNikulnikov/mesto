@@ -2,7 +2,6 @@ import validationConfig from './config.js';
 import initialCards from './constants.js';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
-import { disableButton } from './utils.js';
 
 /** Popup profile.
  * @constan
@@ -27,6 +26,7 @@ const popupAddCardTextFieldImageURL = popupAddCardElement.querySelector('.popup_
 const formAddCard = popupAddCardElement.querySelector('.popup__container');
 const popupAddCardForm = popupAddCardElement.querySelector('.popup__form');
 const popupAddCardSubmitButton = popupAddCardElement.querySelector('.popup__submit-btn');
+const popupAddCardValidator = new FormValidator(validationConfig, popupAddCardForm);
 
 /** Popup view image.
  * @constan
@@ -65,7 +65,7 @@ const closePopup = function (popupElement) {
 
 const closeAddCardPopup = function () {
     popupAddCardForm.reset();
-    disableButton(popupAddCardSubmitButton);
+    popupAddCardValidator.disableButton(popupAddCardSubmitButton);
     closePopup(popupAddCardElement);
 }
 
@@ -77,9 +77,10 @@ const bindPopupsOverlayClickListeners = function () {
             }
         })
     })
-}();
+}
+bindPopupsOverlayClickListeners();
 
-const renderCardAppend = function (card) {
+const renderCardAppend = function (card) { 
     cardsContainer.append(card);
 }
 
@@ -87,16 +88,16 @@ const renderCardPrepend = function (card) {
     cardsContainer.prepend(card);
 }
 
-const renderPopupViewImage = function (card) {
-    popupViewImageImage.src = card.querySelector('.element__image').src;
-    popupViewImageImage.alt = card.querySelector('.element__caption').textContent;
-    popupViewImageDescription.textContent = card.querySelector('.element__caption').textContent;
+const renderPopupViewImage = function (cardName, imgUrl) {
+    popupViewImageImage.src = imgUrl;
+    popupViewImageImage.alt = cardName;
+    popupViewImageDescription.textContent = cardName;
     openPopup(popupViewImageElement);
 }
 
 const getCard = function (cardData) {
-    let card = new Card(cardData, cardsTemplate).createCard(renderPopupViewImage);
-    return card;
+    const card = new Card(cardData, cardsTemplate, renderPopupViewImage).createCard();
+    return card
 }
 
 initialCards.forEach((cardData) => {
@@ -145,5 +146,7 @@ popupViewImageButtonClose.addEventListener('click', function () {
 
 /** Validation connection. */ 
 formList.forEach(form => {
+    form.name === 'formAddCard'?
+    popupAddCardValidator.enableValidation(): 
     new FormValidator(validationConfig, form).enableValidation();
 })

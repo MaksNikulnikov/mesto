@@ -1,9 +1,6 @@
-import { disableButton } from './utils.js'
-
 class FormValidator {
 
   constructor(validationConfig, form) {
-    this._validationConfig = validationConfig;
     this._inputSelector = validationConfig.inputSelector;
     this._submitButtonSelector = validationConfig.submitButtonSelector;
     this._inactiveButtonClass = validationConfig.inactiveButtonClass;
@@ -12,14 +9,18 @@ class FormValidator {
     this._parentInputAndErrorSelector = validationConfig.parentInputAndErrorSelector;
     this._inputErrorSelector = validationConfig.inputErrorSelector
     this._form = form;
-    this._disableSubmitButton = disableButton;
   }
 
+  disableButton = (button) => {
+    button.classList.add(this._inactiveButtonClass)
+    button.disabled = true;
+  }
+  
   _toggleButtonState = (inputList, submitButton) => {
     const hasInvalidInput = inputList.some(el => !el.validity.valid)
 
     if (hasInvalidInput) {
-      this._disableSubmitButton(submitButton)
+      this.disableButton(submitButton)
     } else {
       submitButton.removeAttribute('disabled')
       submitButton.classList.remove(this._inactiveButtonClass)
