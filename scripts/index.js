@@ -39,7 +39,6 @@ const popupViewImageButtonClose = popupViewImageElement.querySelector('.popup__c
 const cardsTemplate = document.querySelector('.element__template').content;
 const cardsContainer = document.querySelector('.elements__holder');
 const popupElements = document.querySelectorAll('.popup');
-const formList = document.querySelectorAll(validationConfig.formSelector);
 
 const handleEscUp = function (evt) {
     if (evt.key === 'Escape') {
@@ -131,7 +130,6 @@ popupProfileButtonClose.addEventListener('click', function () {
     closePopup(popupProfileElement);
 });
 formProfile.addEventListener('submit', handleProfileFormSubmit);
-
 popupAddCardButtonOpen.addEventListener('click', function () {
     openPopup(popupAddCardElement);
 })
@@ -139,11 +137,9 @@ popupAddCardButtonClose.addEventListener('click', function () {
     closeAddCardPopup(popupAddCardElement);
 })
 formAddCard.addEventListener('submit', handleCardFormSubmit);
-
 popupViewImageButtonClose.addEventListener('click', function () {
     closePopup(popupViewImageElement);
 })
 
-/** Validation connection. */
 popupAddCardValidator.enableValidation();
 popupProfileValidator.enableValidation();
