@@ -2,6 +2,7 @@ import validationConfig from './config.js';
 import initialCards from './constants.js';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
+import PopupWithImage from './components/PopupWithImage.js';
 
 /** Popup profile.
  * @constan
@@ -31,10 +32,10 @@ const popupAddCardValidator = new FormValidator(validationConfig, popupAddCardFo
 /** Popup view image.
  * @constan
  */
-const popupViewImageElement = document.querySelector('.popup_view-image');
-const popupViewImageImage = popupViewImageElement.querySelector('.popup__image');
-const popupViewImageDescription = popupViewImageElement.querySelector('.popup__figcaption');
-const popupViewImageButtonClose = popupViewImageElement.querySelector('.popup__close-btn');
+// const popupViewImageElement = document.querySelector('.popup_view-image');
+// const popupViewImageImage = popupViewImageElement.querySelector('.popup__image');
+// const popupViewImageDescription = popupViewImageElement.querySelector('.popup__figcaption');
+// const popupViewImageButtonClose = popupViewImageElement.querySelector('.popup__close-btn');
 
 const cardsTemplate = document.querySelector('.element__template').content;
 const cardsContainer = document.querySelector('.elements__holder');
@@ -87,15 +88,21 @@ const renderCardPrepend = function (card) {
     cardsContainer.prepend(card);
 }
 
-const renderPopupViewImage = function (cardName, imgUrl) {
-    popupViewImageImage.src = imgUrl;
-    popupViewImageImage.alt = cardName;
-    popupViewImageDescription.textContent = cardName;
-    openPopup(popupViewImageElement);
+// const renderPopupViewImage = function (cardName, imgUrl) {
+//     popupViewImageImage.src = imgUrl;
+//     popupViewImageImage.alt = cardName;
+//     popupViewImageDescription.textContent = cardName;
+//     openPopup(popupViewImageElement);
+// }
+
+const renderPopupViewImageClass = function (cardName, imgUrl) {
+    const popupWithImage = new PopupWithImage('.popup_view-image',{src:imgUrl, caption:cardName})
+    popupWithImage.setEventListeners();
+    popupWithImage.open();
 }
 
 const getCard = function (cardData) {
-    const card = new Card(cardData, cardsTemplate, renderPopupViewImage).createCard();
+    const card = new Card(cardData, cardsTemplate, renderPopupViewImageClass).createCard();
     return card
 }
 
@@ -137,9 +144,9 @@ popupAddCardButtonClose.addEventListener('click', function () {
     closeAddCardPopup(popupAddCardElement);
 })
 formAddCard.addEventListener('submit', handleCardFormSubmit);
-popupViewImageButtonClose.addEventListener('click', function () {
-    closePopup(popupViewImageElement);
-})
+// popupViewImageButtonClose.addEventListener('click', function () {
+//     closePopup(popupViewImageElement);
+// })
 
 popupAddCardValidator.enableValidation();
 popupProfileValidator.enableValidation();
