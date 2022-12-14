@@ -7,7 +7,6 @@ export default class PopupWithImage extends Popup{
         this._caption = caption; 
         this._imageElement = this._popup.querySelector('.popup__image');
         this._descriptionElement = this._popup.querySelector('.popup__figcaption');
-       // console.log('this >>', this);
     }
 
     open(){

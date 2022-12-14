@@ -1,15 +1,16 @@
 export default class Card {
-    constructor(cardData, cardsTemplate, renderPopupViewImage) {
-        this._cardName = cardData.cardName;
-        this._cardImgURL = cardData.cardImgURL;
-        this._cardsTemplate = cardsTemplate;
-        this._renderPopupViewImage = renderPopupViewImage;
+    constructor(cardData, cardsTemplateSelector, handleCardClick) {
+        this._cardName = cardData.name;
+        this._cardImgURL = cardData.link;
+
+        this._cardsTemplate = document.querySelector(cardsTemplateSelector).content;
+        this._handleCardClick = handleCardClick;
     }
 
     _addLikeListener = () => {
         const heartElement = this._card.querySelector('.element__heart');
         heartElement.addEventListener('click', function () {
-        heartElement.classList.toggle('element__heart_clicked');
+            heartElement.classList.toggle('element__heart_clicked');
         });
     }
 
@@ -19,19 +20,19 @@ export default class Card {
     }
 
     _addRemoveListener = () => {
-        const buttonDelete = this._card.querySelector('.element__delete');            
+        const buttonDelete = this._card.querySelector('.element__delete');
         buttonDelete.addEventListener('click', this._removeCard);
     }
 
     _addViewListener = () => {
         const image = this._card.querySelector('.element__image');
-        image.addEventListener('click', ()=>{
-            this._renderPopupViewImage(this._cardName, this._cardImgURL);
+        image.addEventListener('click', () => {
+            this._handleCardClick(this._cardName, this._cardImgURL);
         });
     }
 
     createCard = () => {
-        this._card = this._cardsTemplate.cloneNode(true).children[0];      
+        this._card = this._cardsTemplate.cloneNode(true).children[0];
 
         const cardImage = this._card.querySelector('.element__image');
         cardImage.src = this._cardImgURL;
