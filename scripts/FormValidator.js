@@ -23,7 +23,7 @@ class FormValidator {
     this._submitButton.removeAttribute('disabled');
   }
 
-  _toggleButtonState = () => {
+  toggleButtonState = () => {
     const hasInvalidInput = this._inputList.some(el => !el.validity.valid);
 
     if (hasInvalidInput) {
@@ -71,12 +71,12 @@ class FormValidator {
       event.preventDefault();
     });
 
-    this._toggleButtonState();
+    this.toggleButtonState();
 
     this._inputList.forEach((inputEl) => {
       inputEl.addEventListener('input', () => {
         this._checkInputValidity(inputEl);
-        this._toggleButtonState();
+        this.toggleButtonState();
       });
     });
   }
