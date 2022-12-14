@@ -25,8 +25,6 @@ const sectionCards = new Section({
     }
 }, '.elements__holder');
 
-sectionCards.render();
-
 const userInfo = new UserInfo({ nameSelector: '.profile__title', descriptionSelector: '.profile__subtitle' });
 
 const profilePopup = new PopupWithForm('.popup_add-profile', (event, inputValues) => {
@@ -49,6 +47,8 @@ const newCardPopup = new PopupWithForm('.popup_add-card', (event, inputValues) =
     popupAddCardValidator.toggleButtonState();
 });
 
+sectionCards.render();
+
 newCardPopup.setEventListeners();
 profilePopup.setEventListeners();
 
@@ -56,7 +56,7 @@ popupProfileButtonOpen.addEventListener('click', function () {
     profilePopup.open(userInfo.getUserInfo());
 });
 popupAddCardButtonOpen.addEventListener('click', function () {
-    newCardPopup.open();
+    newCardPopup.open({});
 })
 
 popupAddCardValidator.enableValidation();

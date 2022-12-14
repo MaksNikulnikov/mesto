@@ -29,8 +29,8 @@ export default class PopupWithForm extends Popup {
     }
 
     open({name = '', description = ''}) {
-        this._inputs[0].value = name;
-        this._inputs[1].value = description;
+            this._inputs[0].value = name;
+            this._inputs[1].value = description;
         super.open();
     }
 
