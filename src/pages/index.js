@@ -19,11 +19,15 @@ const handleCardClick = function ({ src, caption }) {
     popupWithImage.open({ src, caption });
 }
 
+const getCard = function (cardData) {
+    return new Card(cardData, '.element__template', handleCardClick).createCard();
+}
+
 const sectionCards = new Section({
     items: initialCards,
     renderer: (cardData) => {
-        const card = new Card(cardData, '.element__template', handleCardClick).createCard();
-        sectionCards.addItem(card, true);
+        sectionCards.addItem(getCard(cardData),
+            true);
     }
 }, '.elements__holder');
 
@@ -40,8 +44,8 @@ const profilePopup = new PopupWithForm('.popup_add-profile', (event, inputValues
 const newCardPopup = new PopupWithForm('.popup_add-card', (event, inputValues) => {
     event.preventDefault();
 
-    const card = new Card(inputValues, '.element__template', handleCardClick).createCard();
-    sectionCards.addItem(card, false);
+    sectionCards.addItem(getCard(inputValues),
+        false);
     newCardPopup.close();
     popupAddCardValidator.toggleButtonState();
 });
