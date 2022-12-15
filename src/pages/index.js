@@ -1,6 +1,6 @@
 import './index.css';
-import validationConfig from '../config.js';
-import initialCards from '../constants.js';
+import validationConfig from '../utils/config.js';
+import { initialCards, popupAddCardButtonOpen, popupProfileButtonOpen } from '../utils/constants.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
@@ -8,21 +8,22 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import Section from '../components/Section.js';
 
-const popupProfileButtonOpen = document.querySelector('.profile__edit-button');
-const popupAddCardButtonOpen = document.querySelector('.profile__add-button');
+
 const popupProfileValidator = new FormValidator(validationConfig, document.forms.formProfile);
 const popupAddCardValidator = new FormValidator(validationConfig, document.forms.formAddCard);
 
-const handleCardClick = function (cardName, imgUrl) {
-    const popupWithImage = new PopupWithImage('.popup_view-image', { src: imgUrl, caption: cardName })
+const popupWithImage = new PopupWithImage('.popup_view-image')
+
+const handleCardClick = function ({ src, caption }) {
     popupWithImage.setEventListeners();
-    popupWithImage.open();
+    popupWithImage.open({ src, caption });
 }
 
 const sectionCards = new Section({
-    items: initialCards, renderer: (cardData) => {
+    items: initialCards,
+    renderer: (cardData) => {
         const card = new Card(cardData, '.element__template', handleCardClick).createCard();
-        return card;
+        sectionCards.addItem(card, true);
     }
 }, '.elements__holder');
 
@@ -31,20 +32,17 @@ const userInfo = new UserInfo({ nameSelector: '.profile__title', descriptionSele
 const profilePopup = new PopupWithForm('.popup_add-profile', (event, inputValues) => {
     event.preventDefault();
 
-    const popup = profilePopup;
-    const { inputToProfileTitle: name, inputToProfileSubtitle: description } = inputValues;
-    userInfo.setUserInfo({ name, description });
-    popup.close();
+    userInfo.setUserInfo(inputValues);
+    profilePopup.close();
     popupProfileValidator.toggleButtonState();
 });
 
 const newCardPopup = new PopupWithForm('.popup_add-card', (event, inputValues) => {
     event.preventDefault();
 
-    const popup = newCardPopup;
-    const { inputToProfileTitle: name, inputToProfileSubtitle: link } = inputValues;
-    sectionCards.addItem({name, link});
-    popup.close();
+    const card = new Card(inputValues, '.element__template', handleCardClick).createCard();
+    sectionCards.addItem(card, false);
+    newCardPopup.close();
     popupAddCardValidator.toggleButtonState();
 });
 
@@ -54,7 +52,8 @@ newCardPopup.setEventListeners();
 profilePopup.setEventListeners();
 
 popupProfileButtonOpen.addEventListener('click', function () {
-    profilePopup.open(userInfo.getUserInfo());
+    profilePopup.setInputValues(userInfo.getUserInfo());
+    profilePopup.open();
 });
 popupAddCardButtonOpen.addEventListener('click', function () {
     newCardPopup.open({});

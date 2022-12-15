@@ -24,4 +24,8 @@ const initialCards = [
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
     }
 ];
-export default initialCards;
+
+const popupProfileButtonOpen = document.querySelector('.profile__edit-button');
+const popupAddCardButtonOpen = document.querySelector('.profile__add-button');
+
+export {initialCards, popupAddCardButtonOpen, popupProfileButtonOpen};
