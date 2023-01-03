@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title lang="en">Mesto Russia</title>
+<script defer src="main.js"></script><link href="main.css" rel="stylesheet"></head>
+
+<body class="root">
+    <header class="header">
+        <img class="header__logo" src="bbe2a6eafac19c3d031c.svg" alt="логотип">
+    </header>
+    <main class="main">
+        <section class="profile">
+            <img class="profile__image" src="62c15473d5858be88363.png" alt="аватар">
+            <div class="profile__info">
+                <h1 class="profile__title">Жак-Ив Кусто</h1>
+                <button type="button" class="profile__edit-button"></button>
+                <p class="profile__subtitle">Исследователь океана</p>
+            </div>
+            <button type="button" class="profile__add-button"></button>
+        </section>
+        <section class="elements">
+            <ul class="elements__holder">
+            </ul>
+            <template class="element__template">
+                <li class="element">
+                    <article class="element__image-holder">
+                        <button type="button" class="element__delete"></button>
+                        <img class="element__image" src="#" alt="">
+                        <div class="element__caption">
+                            <h2 class="element__title"></h2>
+                            <button type="button" class="element__heart"></button>
+                        </div>
+                    </article>
+                </li>
+            </template>
+        </section>
+    </main>
+    <footer class="footer">
+        <p class="footer__copyright" lang="en">© 2022 Mesto Russia</p>
+    </footer>
+    <section class="popup popup_add-profile">
+        <div class="popup__container">
+            <button type="button" class="popup__close-btn"></button>
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <form name="formProfile" class="popup__form" novalidate>
+                <section class="popup__form-section">
+                    <input name="name" type="text" placeholder="Имя" value=""
+                        class="popup__text popup__text_type_name" required minlength="2" maxlength="40">
+                    <span class="popup__error"></span>
+                </section>
+                <section class="popup__form-section">
+                    <input name="description" type="text" placeholder="Вид деятельности" value=""
+                        class="popup__text popup__text_type_caption" required minlength="2" maxlength="200">
+                    <span class="popup__error"></span>
+                </section>
+                <button type="submit" class="popup__submit-btn">
+                    Сохранить
+                </button>
+            </form>
+        </div>
+    </section>
+    <section class="popup popup_add-card">
+        <div class="popup__container">
+            <button type="button" class="popup__close-btn"></button>
+            <h2 class="popup__title">Новое место</h2>
+            <form name="formAddCard" class="popup__form" novalidate>
+                <section class="popup__form-section">
+                    <input name="name" type="text" placeholder="Название" value=""
+                        class="popup__text popup__text_type_name" required minlength="2" maxlength="30">
+                    <span class="popup__error"></span>
+                </section>
+                <section class="popup__form-section">
+                    <input name="link" type="url" placeholder="Ссылка на картинку" value=""
+                        class="popup__text popup__text_type_url" required>
+                    <span class="popup__error"></span>
+                </section>
+                <button type="submit" class="popup__submit-btn">
+                    Создать
+                </button>
+            </form>
+        </div>
+    </section>
+    <section class="popup popup_view-image">
+        <figure class="popup__container popup__container_for-image">
+            <button type="button" class="popup__close-btn"></button>
+            <img class="popup__image" src="#" alt="">
+            <figcaption class="popup__figcaption"></figcaption>
+        </figure>
+    </section>
+</body>
+
+</html>
