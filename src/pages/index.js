@@ -7,8 +7,9 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import Section from '../components/Section.js';
+import Api from '../components/Api';
 
-
+const api = new Api();
 const popupProfileValidator = new FormValidator(validationConfig, document.forms.formProfile);
 const popupAddCardValidator = new FormValidator(validationConfig, document.forms.formAddCard);
 
@@ -31,7 +32,7 @@ const sectionCards = new Section({
     }
 }, '.elements__holder');
 
-const userInfo = new UserInfo({ nameSelector: '.profile__title', descriptionSelector: '.profile__subtitle' });
+const userInfo = new UserInfo({ nameSelector: '.profile__title', descriptionSelector: '.profile__subtitle' }, api.getUserInfo());
 
 const profilePopup = new PopupWithForm('.popup_add-profile', (event, inputValues) => {
     event.preventDefault();

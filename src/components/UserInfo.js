@@ -1,10 +1,15 @@
 export default class UserInfo {
-    constructor({ nameSelector, descriptionSelector }) {
+    constructor({ nameSelector, descriptionSelector }, promise) {
 
         this._nameElement = document.querySelector(nameSelector);
-        this._name = this._nameElement.textContent;
         this._descriptionElement = document.querySelector(descriptionSelector);
-        this._description = this._descriptionElement.textContent;
+        console.log(promise);
+        promise.then((data) => {
+            this._name = data.name;
+            this._description = data.about;
+            this._renderInfo();
+        })
+        
     }
 
     getUserInfo() {
