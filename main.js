@@ -26,7 +26,7 @@ var Api = /*#__PURE__*/function () {
     this._serverName = 'https://nomoreparties.co';
     this._requests = {
       toUserInfo: "".concat(this._serverName, "/v1/").concat(this._groupId, "/users/me"),
-      getInitialCards: "".concat(this._serverName, "/v1/").concat(this._groupId, "/cards")
+      toCards: "".concat(this._serverName, "/v1/").concat(this._groupId, "/cards")
     };
   }
   _createClass(Api, [{
@@ -48,7 +48,7 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "getInitialCards",
     value: function getInitialCards() {
-      return fetch(this._requests.getInitialCards, {
+      return fetch(this._requests.toCards, {
         headers: {
           authorization: this._token
         }
@@ -75,6 +75,30 @@ var Api = /*#__PURE__*/function () {
         body: JSON.stringify({
           name: name,
           about: about
+        })
+      }).then(function (res) {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject("Error: ".concat(res.status));
+      }).catch(function (err) {
+        return console.error(err);
+      });
+    }
+  }, {
+    key: "postCard",
+    value: function postCard(_ref2) {
+      var name = _ref2.name,
+        link = _ref2.link;
+      return fetch(this._requests.toCards, {
+        method: 'POST',
+        headers: {
+          authorization: this._token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name,
+          link: link
         })
       }).then(function (res) {
         if (res.ok) {
@@ -778,13 +802,17 @@ var profilePopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__
       description: data.about
     });
   });
-  //  userInfo.setUserInfo(inputValues);
   profilePopup.close();
   popupProfileValidator.toggleButtonState();
 });
 var newCardPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.popup_add-card', function (event, inputValues) {
   event.preventDefault();
-  sectionCards.addItem(getCard(inputValues), false);
+  api.postCard(inputValues).then(function (data) {
+    sectionCards.addItem(getCard({
+      name: data.name,
+      link: data.link
+    }), false);
+  });
   newCardPopup.close();
   popupAddCardValidator.toggleButtonState();
 });
