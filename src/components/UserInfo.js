@@ -1,19 +1,18 @@
 export default class UserInfo {
-    constructor({ nameSelector, descriptionSelector }, promise) {
+    constructor({ nameSelector, descriptionSelector, avatarSelector }) {
 
         this._nameElement = document.querySelector(nameSelector);
         this._descriptionElement = document.querySelector(descriptionSelector);
-        console.log(promise);
-        promise.then((data) => {
-            this._name = data.name;
-            this._description = data.about;
-            this._renderInfo();
-        })
-        
+        this._avatarElement = document.querySelector(avatarSelector);
+
     }
 
     getUserInfo() {
         return { name: this._name, description: this._description }
+    }
+
+    _renderAvatar() {
+        this._avatarElement.src = this._avatar;
     }
 
     _renderInfo() {
@@ -22,8 +21,16 @@ export default class UserInfo {
     }
 
     setUserInfo({ name, description }) {
+        console.log(name, description);
         this._name = name;
         this._description = description;
         this._renderInfo();
+
+    }
+
+    setAvatar(avatar) {
+        this._avatar = avatar;
+        this._renderAvatar();
+
     }
 }

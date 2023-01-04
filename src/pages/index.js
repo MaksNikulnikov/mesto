@@ -24,20 +24,54 @@ const getCard = function (cardData) {
     return new Card(cardData, '.element__template', handleCardClick).createCard();
 }
 
-const sectionCards = new Section({
-    items: initialCards,
+let sectionCards = new Section({
+    items: [],
     renderer: (cardData) => {
         sectionCards.addItem(getCard(cardData),
             true);
     }
-}, '.elements__holder');
+}, '.elements__holder');;
 
-const userInfo = new UserInfo({ nameSelector: '.profile__title', descriptionSelector: '.profile__subtitle' }, api.getUserInfo());
+api.getInitialCards()
+    .then((data) => {
+        const initialCards = [];
+        data.forEach((item) => {
+            initialCards.push({ name: item.name, link: item.link })
+        });
+        return initialCards;
+    })
+    .then((initialCards) => {
+        initialCards.forEach(cardData => {
+            sectionCards.addItem(getCard(cardData), true);
+        })
+
+        sectionCards.render();
+    })
+
+const userInfo = new UserInfo({
+    nameSelector: '.profile__title',
+    descriptionSelector: '.profile__subtitle',
+    avatarSelector: '.profile__image'
+});
+
+api.getUserInfo()
+    .then((data) => {
+        userInfo.setAvatar(data.avatar);
+        userInfo.setUserInfo({
+            name: data.name,
+            description: data.about
+        });
+    })
 
 const profilePopup = new PopupWithForm('.popup_add-profile', (event, inputValues) => {
     event.preventDefault();
+    api.patchUserInfo({ name: inputValues.name, about: inputValues.description })
+    .then(data=>{
+        userInfo.setUserInfo({name: data.name, description: data.about})
+    }
 
-    userInfo.setUserInfo(inputValues);
+    )
+  //  userInfo.setUserInfo(inputValues);
     profilePopup.close();
     popupProfileValidator.toggleButtonState();
 });
@@ -50,8 +84,6 @@ const newCardPopup = new PopupWithForm('.popup_add-card', (event, inputValues) =
     newCardPopup.close();
     popupAddCardValidator.toggleButtonState();
 });
-
-sectionCards.render();
 
 newCardPopup.setEventListeners();
 profilePopup.setEventListeners();
