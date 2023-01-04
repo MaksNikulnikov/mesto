@@ -5,7 +5,7 @@ export default class Api {
         this._serverName = 'https://nomoreparties.co';
         this._requests = {
             toUserInfo: `${this._serverName}/v1/${this._groupId}/users/me`,
-            getInitialCards: `${this._serverName}/v1/${this._groupId}/cards`
+            toCards: `${this._serverName}/v1/${this._groupId}/cards`
         }
     }
 
@@ -25,7 +25,7 @@ export default class Api {
     }
 
     getInitialCards() {
-        return fetch(this._requests.getInitialCards, {
+        return fetch(this._requests.toCards, {
             headers: {
                 authorization: this._token
             }
@@ -49,6 +49,27 @@ export default class Api {
             body: JSON.stringify({
                 name: name,
                 about: about
+            })
+        })
+        .then(res=>{
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Error: ${res.status}`);
+        })
+        .catch(err => console.error(err));
+    }
+
+    postCard({ name, link }) {
+        return fetch(this._requests.toCards, {
+            method: 'POST',
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                link: link
             })
         })
         .then(res=>{

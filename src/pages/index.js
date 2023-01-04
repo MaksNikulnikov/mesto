@@ -66,21 +66,20 @@ api.getUserInfo()
 const profilePopup = new PopupWithForm('.popup_add-profile', (event, inputValues) => {
     event.preventDefault();
     api.patchUserInfo({ name: inputValues.name, about: inputValues.description })
-    .then(data=>{
-        userInfo.setUserInfo({name: data.name, description: data.about})
-    }
-
-    )
-  //  userInfo.setUserInfo(inputValues);
+        .then(data => {
+            userInfo.setUserInfo({ name: data.name, description: data.about })
+        });
     profilePopup.close();
     popupProfileValidator.toggleButtonState();
 });
 
 const newCardPopup = new PopupWithForm('.popup_add-card', (event, inputValues) => {
     event.preventDefault();
-
-    sectionCards.addItem(getCard(inputValues),
+    api.postCard(inputValues)
+    .then(data=>{
+        sectionCards.addItem(getCard({name: data.name, link: data.link}),
         false);
+    })
     newCardPopup.close();
     popupAddCardValidator.toggleButtonState();
 });
