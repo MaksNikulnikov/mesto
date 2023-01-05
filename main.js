@@ -164,6 +164,7 @@ var Card = /*#__PURE__*/_createClass(function Card(cardData, cardsTemplateSelect
     _this._image.src = _this._cardImgURL;
     _this._image.alt = _this._cardName;
     _this._card.querySelector('.element__title').textContent = _this._cardName;
+    _this._card.querySelector('.element__heart_counter').textContent = _this._amountLikes;
     _this._addLikeListener();
     _this._addRemoveListener();
     _this._addViewListener();
@@ -171,6 +172,7 @@ var Card = /*#__PURE__*/_createClass(function Card(cardData, cardsTemplateSelect
   });
   this._cardName = cardData.name;
   this._cardImgURL = cardData.link;
+  this._amountLikes = cardData.likes.length;
   this._cardsTemplate = document.querySelector(cardsTemplateSelector).content;
   this._handleCardClick = handleCardClick;
 });
@@ -769,7 +771,8 @@ api.getInitialCards().then(function (data) {
   data.forEach(function (item) {
     initialCards.push({
       name: item.name,
-      link: item.link
+      link: item.link,
+      likes: item.likes
     });
   });
   return initialCards;
@@ -810,7 +813,8 @@ var newCardPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__
   api.postCard(inputValues).then(function (data) {
     sectionCards.addItem(getCard({
       name: data.name,
-      link: data.link
+      link: data.link,
+      likes: data.likes
     }), false);
   });
   newCardPopup.close();

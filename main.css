@@ -158,6 +158,14 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/popup/__text/_invalid/popup__text_invalid.css ***!
   \**********************************************************************************************************************************************************************************/
 .popup__text_invalid{border-bottom:1px solid red}
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/element/__heart-container/element__heart-container.css ***!
+  \*******************************************************************************************************************************************************************************************/
+.element__heart-container{display:flex;flex-direction:column}
+/*!****************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/element/__heart/_counter/element__heart_counter.css ***!
+  \****************************************************************************************************************************************************************************************/
+.element__heart_counter{font-family:Inter,Arial,sans-serif;font-size:13px;line-height:16px;margin-top:3px;text-align:center}
 /*!*********************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/pages/index.css ***!
   \*********************************************************************************************************************************************/
