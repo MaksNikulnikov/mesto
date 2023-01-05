@@ -31,7 +31,10 @@
                         <img class="element__image" src="#" alt="">
                         <div class="element__caption">
                             <h2 class="element__title"></h2>
-                            <button type="button" class="element__heart"></button>
+                            <div class="element__heart-container">
+                                <button type="button" class="element__heart"></button>
+                                <span class="element__heart_counter">1</span>
+                            </div>
                         </div>
                     </article>
                 </li>
@@ -47,8 +50,8 @@
             <h2 class="popup__title">Редактировать профиль</h2>
             <form name="formProfile" class="popup__form" novalidate>
                 <section class="popup__form-section">
-                    <input name="name" type="text" placeholder="Имя" value=""
-                        class="popup__text popup__text_type_name" required minlength="2" maxlength="40">
+                    <input name="name" type="text" placeholder="Имя" value="" class="popup__text popup__text_type_name"
+                        required minlength="2" maxlength="40">
                     <span class="popup__error"></span>
                 </section>
                 <section class="popup__form-section">

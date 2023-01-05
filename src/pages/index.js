@@ -36,7 +36,7 @@ api.getInitialCards()
     .then((data) => {
         const initialCards = [];
         data.forEach((item) => {
-            initialCards.push({ name: item.name, link: item.link })
+            initialCards.push({ name: item.name, link: item.link, likes: item.likes });
         });
         return initialCards;
     })
@@ -77,7 +77,7 @@ const newCardPopup = new PopupWithForm('.popup_add-card', (event, inputValues) =
     event.preventDefault();
     api.postCard(inputValues)
     .then(data=>{
-        sectionCards.addItem(getCard({name: data.name, link: data.link}),
+        sectionCards.addItem(getCard({name: data.name, link: data.link, likes: data.likes}),
         false);
     })
     newCardPopup.close();
