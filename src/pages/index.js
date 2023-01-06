@@ -1,6 +1,6 @@
 import './index.css';
 import validationConfig from '../utils/config.js';
-import { initialCards, popupAddCardButtonOpen, popupProfileButtonOpen } from '../utils/constants.js';
+import { popupAddCardButtonOpen, popupProfileButtonOpen } from '../utils/constants.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
@@ -8,6 +8,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import Section from '../components/Section.js';
 import Api from '../components/Api';
+import PopupRemoveElement from '../components/PopupRemoveElement';
 
 const api = new Api();
 const popupProfileValidator = new FormValidator(validationConfig, document.forms.formProfile);
@@ -20,8 +21,18 @@ const handleCardClick = function ({ src, caption }) {
     popupWithImage.open({ src, caption });
 }
 
+const popupRemoveCard = new PopupRemoveElement('.popup_remove-card', () => {
+    popupRemoveCard.close();
+});
+
+const handleRemoveClick = function (removedElement) {
+    popupRemoveCard.setRemovedElement(removedElement);
+    popupRemoveCard.setEventListeners();
+    popupRemoveCard.open();
+}
+
 const getCard = function (cardData) {
-    return new Card(cardData, '.element__template', handleCardClick).createCard();
+    return new Card(cardData, '.element__template', handleCardClick, handleRemoveClick).createCard();
 }
 
 let sectionCards = new Section({
@@ -76,10 +87,10 @@ const profilePopup = new PopupWithForm('.popup_add-profile', (event, inputValues
 const newCardPopup = new PopupWithForm('.popup_add-card', (event, inputValues) => {
     event.preventDefault();
     api.postCard(inputValues)
-    .then(data=>{
-        sectionCards.addItem(getCard({name: data.name, link: data.link, likes: data.likes}),
-        false);
-    })
+        .then(data => {
+            sectionCards.addItem(getCard({ name: data.name, link: data.link, likes: data.likes }),
+                false);
+        })
     newCardPopup.close();
     popupAddCardValidator.toggleButtonState();
 });
