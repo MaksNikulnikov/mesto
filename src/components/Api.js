@@ -24,7 +24,7 @@ export default class Api {
             .catch(err => console.error(err));
     }
 
-    getInitialCards() {
+    getCards() {
         return fetch(this._requests.toCards, {
             headers: {
                 authorization: this._token
@@ -51,13 +51,13 @@ export default class Api {
                 about: about
             })
         })
-        .then(res=>{
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(`Error: ${res.status}`);
-        })
-        .catch(err => console.error(err));
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Error: ${res.status}`);
+            })
+            .catch(err => console.error(err));
     }
 
     postCard({ name, link }) {
@@ -72,12 +72,28 @@ export default class Api {
                 link: link
             })
         })
-        .then(res=>{
-            if (res.ok) {
-                return res.json();
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Error: ${res.status}`);
+            })
+            .catch(err => console.error(err));
+    }
+
+    deleteCard(cardId) {
+        return fetch(`${this._requests.toCards}/${cardId}`, {
+            method: 'DELETE',
+            headers: {
+                authorization: this._token
             }
-            return Promise.reject(`Error: ${res.status}`);
         })
-        .catch(err => console.error(err));
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Error: ${res.status}`);
+            })
+            .catch(err => console.error(err));
     }
 }

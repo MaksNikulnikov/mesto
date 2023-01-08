@@ -1,9 +1,9 @@
 import Popup from "./Popup.js";
 
 export default class PopupRemoveElement extends Popup {
-    constructor(popupSelector, remove) {
+    constructor(popupSelector, removeHandler) {
         super(popupSelector);
-        this._remove = remove;
+        this._remove = removeHandler;
         this._buttonRemove = this._popup.querySelector('.popup__submit-btn');
     }
 

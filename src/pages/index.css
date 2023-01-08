@@ -40,3 +40,4 @@
 @import url('../blocks/popup/__text/_invalid/popup__text_invalid.css');
 @import url('../blocks/element/__heart-container/element__heart-container.css');
 @import url('../blocks/element/__heart/_counter/element__heart_counter.css');
+@import url('../blocks/element/__delete/_hidden/element__delete_hidden.css');
