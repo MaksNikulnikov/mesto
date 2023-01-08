@@ -46,8 +46,8 @@ var Api = /*#__PURE__*/function () {
       });
     }
   }, {
-    key: "getInitialCards",
-    value: function getInitialCards() {
+    key: "getCards",
+    value: function getCards() {
       return fetch(this._requests.toCards, {
         headers: {
           authorization: this._token
@@ -109,6 +109,23 @@ var Api = /*#__PURE__*/function () {
         return console.error(err);
       });
     }
+  }, {
+    key: "deleteCard",
+    value: function deleteCard(cardId) {
+      return fetch("".concat(this._requests.toCards, "/").concat(cardId), {
+        method: 'DELETE',
+        headers: {
+          authorization: this._token
+        }
+      }).then(function (res) {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject("Error: ".concat(res.status));
+      }).catch(function (err) {
+        return console.error(err);
+      });
+    }
   }]);
   return Api;
 }();
@@ -142,13 +159,12 @@ var Card = /*#__PURE__*/_createClass(function Card(cardData, cardsTemplateSelect
       heartElement.classList.toggle('element__heart_clicked');
     });
   });
-  _defineProperty(this, "_removeCard", function () {
+  _defineProperty(this, "removeCard", function () {
     _this._card.remove();
     _this._card = null;
   });
   _defineProperty(this, "_addRemoveListener", function () {
     var buttonDelete = _this._card.querySelector('.element__delete');
-    // buttonDelete.addEventListener('click', this._removeCard);
     buttonDelete.addEventListener('click', function () {
       _this._handleRemoveClick(_this);
     });
@@ -161,6 +177,9 @@ var Card = /*#__PURE__*/_createClass(function Card(cardData, cardsTemplateSelect
       });
     });
   });
+  _defineProperty(this, "getId", function () {
+    return _this._id;
+  });
   _defineProperty(this, "createCard", function () {
     _this._card = _this._cardsTemplate.cloneNode(true).children[0];
     _this._image = _this._card.querySelector('.element__image');
@@ -168,6 +187,11 @@ var Card = /*#__PURE__*/_createClass(function Card(cardData, cardsTemplateSelect
     _this._image.alt = _this._cardName;
     _this._card.querySelector('.element__title').textContent = _this._cardName;
     _this._card.querySelector('.element__heart_counter').textContent = _this._amountLikes;
+    _this._deleteButton = _this._card.querySelector('.element__delete');
+    if (!_this._isDelitable) {
+      _this._deleteButton.classList.add('element__delete_hidden');
+      _this._deleteButton.disable = true;
+    }
     _this._addLikeListener();
     _this._addRemoveListener();
     _this._addViewListener();
@@ -176,6 +200,9 @@ var Card = /*#__PURE__*/_createClass(function Card(cardData, cardsTemplateSelect
   this._cardName = cardData.name;
   this._cardImgURL = cardData.link;
   this._amountLikes = cardData.likes.length;
+  this._id = cardData.id;
+  this._ownerId = cardData.ownerId;
+  this._isDelitable = cardData.isDelitable;
   this._cardsTemplate = document.querySelector(cardsTemplateSelector).content;
   this._handleCardClick = handleCardClick;
   this._handleRemoveClick = handleRemoveClick;
@@ -367,11 +394,11 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 var PopupRemoveElement = /*#__PURE__*/function (_Popup) {
   _inherits(PopupRemoveElement, _Popup);
   var _super = _createSuper(PopupRemoveElement);
-  function PopupRemoveElement(popupSelector, remove) {
+  function PopupRemoveElement(popupSelector, removeHandler) {
     var _this;
     _classCallCheck(this, PopupRemoveElement);
     _this = _super.call(this, popupSelector);
-    _this._remove = remove;
+    _this._remove = removeHandler;
     _this._buttonRemove = _this._popup.querySelector('.popup__submit-btn');
     return _this;
   }
@@ -556,23 +583,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var Section = /*#__PURE__*/function () {
-  function Section(_ref, containerSelector) {
-    var items = _ref.items,
-      renderer = _ref.renderer;
+  function Section(containerSelector) {
     _classCallCheck(this, Section);
-    this._items = items;
-    this._renderer = renderer;
     this._container = document.querySelector(containerSelector);
   }
   _createClass(Section, [{
-    key: "render",
-    value: function render() {
-      var _this = this;
-      this._items.forEach(function (item) {
-        _this._renderer(item);
-      });
-    }
-  }, {
     key: "addItem",
     value: function addItem(item, isAppend) {
       if (isAppend) {
@@ -580,6 +595,13 @@ var Section = /*#__PURE__*/function () {
       } else {
         this._container.prepend(item);
       }
+    }
+  }, {
+    key: "clear",
+    value: function clear() {
+      Array.from(this._container.children).forEach(function (element) {
+        element.remove();
+      });
     }
   }]);
   return Section;
@@ -608,11 +630,13 @@ var UserInfo = /*#__PURE__*/function () {
   function UserInfo(_ref) {
     var nameSelector = _ref.nameSelector,
       descriptionSelector = _ref.descriptionSelector,
-      avatarSelector = _ref.avatarSelector;
+      avatarSelector = _ref.avatarSelector,
+      id = _ref.id;
     _classCallCheck(this, UserInfo);
     this._nameElement = document.querySelector(nameSelector);
     this._descriptionElement = document.querySelector(descriptionSelector);
     this._avatarElement = document.querySelector(avatarSelector);
+    this._currentUserId = id;
   }
   _createClass(UserInfo, [{
     key: "getUserInfo",
@@ -621,6 +645,11 @@ var UserInfo = /*#__PURE__*/function () {
         name: this._name,
         description: this._description
       };
+    }
+  }, {
+    key: "getCurrentUserId",
+    value: function getCurrentUserId() {
+      return this._currentUserId;
     }
   }, {
     key: "_renderAvatar",
@@ -637,10 +666,11 @@ var UserInfo = /*#__PURE__*/function () {
     key: "setUserInfo",
     value: function setUserInfo(_ref2) {
       var name = _ref2.name,
-        description = _ref2.description;
-      console.log(name, description);
+        description = _ref2.description,
+        id = _ref2.id;
       this._name = name;
       this._description = description;
+      this._currentUserId = id;
       this._renderInfo();
     }
   }, {
@@ -803,6 +833,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Section_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/Section.js */ "./src/components/Section.js");
 /* harmony import */ var _components_Api__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/Api */ "./src/components/Api.js");
 /* harmony import */ var _components_PopupRemoveElement__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/PopupRemoveElement */ "./src/components/PopupRemoveElement.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) { ; } } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -827,7 +863,8 @@ var handleCardClick = function handleCardClick(_ref) {
     caption: caption
   });
 };
-var popupRemoveCard = new _components_PopupRemoveElement__WEBPACK_IMPORTED_MODULE_10__["default"]('.popup_remove-card', function () {
+var popupRemoveCard = new _components_PopupRemoveElement__WEBPACK_IMPORTED_MODULE_10__["default"]('.popup_remove-card', function (card) {
+  api.deleteCard(card.getId()).then(card.removeCard());
   popupRemoveCard.close();
 });
 var handleRemoveClick = function handleRemoveClick(removedElement) {
@@ -836,41 +873,41 @@ var handleRemoveClick = function handleRemoveClick(removedElement) {
   popupRemoveCard.open();
 };
 var getCard = function getCard(cardData) {
+  cardData.isDelitable = userInfo.getCurrentUserId() === cardData.ownerId;
   return new _components_Card_js__WEBPACK_IMPORTED_MODULE_3__["default"](cardData, '.element__template', handleCardClick, handleRemoveClick).createCard();
 };
-var sectionCards = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["default"]({
-  items: [],
-  renderer: function renderer(cardData) {
-    sectionCards.addItem(getCard(cardData), true);
-  }
-}, '.elements__holder');
-;
-api.getInitialCards().then(function (data) {
+var sectionCards = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.elements__holder');
+var downnloadCardPromise = api.getCards().then(function (data) {
   var initialCards = [];
   data.forEach(function (item) {
     initialCards.push({
       name: item.name,
       link: item.link,
-      likes: item.likes
+      likes: item.likes,
+      id: item._id,
+      ownerId: item.owner._id
     });
   });
   return initialCards;
-}).then(function (initialCards) {
-  initialCards.forEach(function (cardData) {
-    sectionCards.addItem(getCard(cardData), true);
-  });
-  sectionCards.render();
 });
 var userInfo = new _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_7__["default"]({
   nameSelector: '.profile__title',
   descriptionSelector: '.profile__subtitle',
   avatarSelector: '.profile__image'
 });
-api.getUserInfo().then(function (data) {
+var userInfoPromise = api.getUserInfo().then(function (data) {
   userInfo.setAvatar(data.avatar);
   userInfo.setUserInfo({
     name: data.name,
-    description: data.about
+    description: data.about,
+    id: data._id
+  });
+});
+Promise.all([downnloadCardPromise, userInfoPromise]).then(function (_ref2) {
+  var _ref3 = _slicedToArray(_ref2, 1),
+    initialCards = _ref3[0];
+  initialCards.forEach(function (cardData) {
+    sectionCards.addItem(getCard(cardData), true);
   });
 });
 var profilePopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.popup_add-profile', function (event, inputValues) {
@@ -881,7 +918,8 @@ var profilePopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__
   }).then(function (data) {
     userInfo.setUserInfo({
       name: data.name,
-      description: data.about
+      description: data.about,
+      id: data._id
     });
   });
   profilePopup.close();
@@ -893,7 +931,9 @@ var newCardPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__
     sectionCards.addItem(getCard({
       name: data.name,
       link: data.link,
-      likes: data.likes
+      likes: data.likes,
+      id: data._id,
+      ownerId: data.owner._id
     }), false);
   });
   newCardPopup.close();
