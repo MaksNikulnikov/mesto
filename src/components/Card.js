@@ -51,7 +51,6 @@ export default class Card {
     }
 
     toddleHeartElementState = () => {
-        console.log('isLiked in toddleState>>', this._isLiked);
         this._card.querySelector('.element__heart_counter').textContent = this._amountLikes;
         if (this._isLiked) {
             this.heartElement.classList.add('element__heart_clicked');

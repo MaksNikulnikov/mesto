@@ -7,10 +7,12 @@ export default class PopupRemoveElement extends Popup {
         this._buttonRemove = this._popup.querySelector('.popup__submit-btn');
     }
 
+    _removeElement = () => {
+        this._remove(this._removedElement);
+    }
+
     setEventListeners() {
-        this._buttonRemove.addEventListener('click', () => {
-            this._remove(this._removedElement);
-        });
+        this._buttonRemove.addEventListener('click', this._removeElement);
         super.setEventListeners();
     }
 
@@ -20,6 +22,7 @@ export default class PopupRemoveElement extends Popup {
 
     close() {
         this._removedElement = null;
+        this._buttonRemove.removeEventListener('click', this._removeElement)
         super.close();
     }
 }

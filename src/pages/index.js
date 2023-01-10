@@ -13,19 +13,7 @@ import PopupRemoveElement from '../components/PopupRemoveElement';
 const api = new Api();
 const popupProfileValidator = new FormValidator(validationConfig, document.forms.formProfile);
 const popupAddCardValidator = new FormValidator(validationConfig, document.forms.formAddCard);
-
-const popupWithImage = new PopupWithImage('.popup_view-image')
-
-const handleCardClick = function ({ src, caption }) {
-    popupWithImage.setEventListeners();
-    popupWithImage.open({ src, caption });
-}
-
-const popupRemoveCard = new PopupRemoveElement('.popup_remove-card', (card) => {
-    api.deleteCard(card.getId())
-        .then(card.removeCard());
-    popupRemoveCard.close();
-});
+const sectionCards = new Section('.elements__holder');
 
 const handleRemoveClick = function (removedElement) {
     popupRemoveCard.setRemovedElement(removedElement);
@@ -34,45 +22,43 @@ const handleRemoveClick = function (removedElement) {
 }
 
 const handleLikeClick = function (isLiked, card) {
-    if (isLiked) {
-        api.deleteLike(card.getId())
-            .then(data => {
-                card._amountLikes = data.likes.length;
-                data.likes.forEach((user) => {
-                    if (user._id === userInfo.getCurrentUserId()) {
-                        card._isLiked = true;
-                    } else {
-                        card._isLiked = false;
-                    }
-                })
-                console.log(card);
-                card.toddleHeartElementState();
-            })
-    } else {
-        api.putLike(card.getId())
-            .then(data => {
-                card._amountLikes = data.likes.length;
-                data.likes.forEach((user) => {
-                    if (user._id === userInfo.getCurrentUserId()) {
-                        card._isLiked = true;
-                    } else {
-                        card._isLiked = false;
-                    }
-                })
-                console.log(card);
-                card.toddleHeartElementState();
-            })
-    }
+    const promise = isLiked ? api.deleteLike(card.getId()) : api.putLike(card.getId());
+    promise
+        .then(data => {
+            card._amountLikes = data.likes.length;
+            let islikedInResponce = false;
+            data.likes.forEach((user) => {
+                if (user._id === userInfo.getCurrentUserId()) {
+                    islikedInResponce = true;
+                }
+            });
+            card._isLiked = islikedInResponce;
+            card.toddleHeartElementState();
+        })
 }
 
-const getCard = function (cardData) {
+const handleCardClick = function ({ src, caption }) {
+    popupWithImage.setEventListeners();
+    popupWithImage.open({ src, caption });
+}
+
+const getCard = function (data) {
+    const cardData = {
+        name: data.name,
+        link: data.link,
+        likes: data.likes,
+        id: data._id,
+        ownerId: data.owner._id
+    };
     cardData.isDelitable = userInfo.getCurrentUserId() === cardData.ownerId;
+    cardData.isLiked = false;
+    cardData.likes.forEach((user) => {
+        if (user._id === userInfo.getCurrentUserId()) {
+            cardData.isLiked = true;
+        }
+    })
     return new Card(cardData, '.element__template', handleCardClick, handleRemoveClick, handleLikeClick).createCard();
 }
-
-const sectionCards = new Section('.elements__holder');
-
-const downnloadCardPromise = api.getCards();
 
 const userInfo = new UserInfo({
     nameSelector: '.profile__title',
@@ -83,47 +69,26 @@ const userInfo = new UserInfo({
 const userInfoPromise = api.getUserInfo()
     .then((data) => {
         userInfo.setAvatar(data.avatar);
-        userInfo.setUserInfo({
-            name: data.name,
-            description: data.about,
-            id: data._id
-        });
+        userInfo.setUserInfo(data);
     });
 
-Promise.all([downnloadCardPromise, userInfoPromise])
-    .then(([data]) => {
-        const initialCards = [];
-        data.forEach((item) => {
-            initialCards.push({
-                name: item.name,
-                link: item.link,
-                likes: item.likes,
-                id: item._id,
-                ownerId: item.owner._id,
-                isLiked: false
-            });
-        });
+Promise.all([api.getCards(), userInfoPromise])
+    .then(([datas]) => { datas.forEach(data => sectionCards.addItem(getCard(data), true)) });
 
+const popupWithImage = new PopupWithImage('.popup_view-image')
 
-        initialCards.forEach(cardData => {
-            cardData.likes.forEach((user) => {
-                if (user._id === userInfo.getCurrentUserId()) {
-                    cardData.isLiked = true;
-                }
-            })
-            sectionCards.addItem(getCard(cardData), true);
-        })
-    })
+const popupRemoveCard = new PopupRemoveElement('.popup_remove-card', (card) => {
+    console.log(card);
+    api.deleteCard(card.getId())
+        .then(card.removeCard());
+    popupRemoveCard.close();
+});
 
 const profilePopup = new PopupWithForm('.popup_add-profile', (event, inputValues) => {
     event.preventDefault();
     api.patchUserInfo({ name: inputValues.name, about: inputValues.description })
         .then(data => {
-            userInfo.setUserInfo({
-                name: data.name,
-                description: data.about,
-                id: data._id
-            })
+            userInfo.setUserInfo(data)
         });
     profilePopup.close();
     popupProfileValidator.toggleButtonState();
@@ -133,14 +98,7 @@ const newCardPopup = new PopupWithForm('.popup_add-card', (event, inputValues) =
     event.preventDefault();
     api.postCard(inputValues)
         .then(data => {
-            sectionCards.addItem(getCard({
-                name: data.name,
-                link: data.link,
-                likes: data.likes,
-                id: data._id,
-                ownerId: data.owner._id
-            }),
-                false);
+            sectionCards.addItem(getCard(data), false);
         })
     newCardPopup.close();
     popupAddCardValidator.toggleButtonState();

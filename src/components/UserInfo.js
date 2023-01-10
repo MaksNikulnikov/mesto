@@ -25,10 +25,10 @@ export default class UserInfo {
         this._descriptionElement.textContent = this._description;
     }
 
-    setUserInfo({ name, description, id }) {
+    setUserInfo({ name, about, _id}) {
         this._name = name;
-        this._description = description;
-        this._currentUserId = id;
+        this._description = about;
+        this._currentUserId = _id;
         this._renderInfo();
     }
 
