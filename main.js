@@ -126,6 +126,40 @@ var Api = /*#__PURE__*/function () {
         return console.error(err);
       });
     }
+  }, {
+    key: "putLike",
+    value: function putLike(cardId) {
+      return fetch("".concat(this._requests.toCards, "/").concat(cardId, "/likes"), {
+        method: 'PUT',
+        headers: {
+          authorization: this._token
+        }
+      }).then(function (res) {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject("Error: ".concat(res.status));
+      }).catch(function (err) {
+        return console.error(err);
+      });
+    }
+  }, {
+    key: "deleteLike",
+    value: function deleteLike(cardId) {
+      return fetch("".concat(this._requests.toCards, "/").concat(cardId, "/likes"), {
+        method: 'DELETE',
+        headers: {
+          authorization: this._token
+        }
+      }).then(function (res) {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject("Error: ".concat(res.status));
+      }).catch(function (err) {
+        return console.error(err);
+      });
+    }
   }]);
   return Api;
 }();
@@ -150,13 +184,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-var Card = /*#__PURE__*/_createClass(function Card(cardData, cardsTemplateSelector, handleCardClick, handleRemoveClick) {
+var Card = /*#__PURE__*/_createClass(function Card(cardData, cardsTemplateSelector, handleCardClick, handleRemoveClick, handleLikeClick) {
   var _this = this;
   _classCallCheck(this, Card);
   _defineProperty(this, "_addLikeListener", function () {
-    var heartElement = _this._card.querySelector('.element__heart');
-    heartElement.addEventListener('click', function () {
-      heartElement.classList.toggle('element__heart_clicked');
+    _this.heartElement = _this._card.querySelector('.element__heart');
+    _this.heartElement.addEventListener('click', function () {
+      _this._handleLikeClick(_this._isLiked, _this);
     });
   });
   _defineProperty(this, "removeCard", function () {
@@ -180,21 +214,33 @@ var Card = /*#__PURE__*/_createClass(function Card(cardData, cardsTemplateSelect
   _defineProperty(this, "getId", function () {
     return _this._id;
   });
+  _defineProperty(this, "_addDeliteButton", function () {
+    _this._deleteButton = _this._card.querySelector('.element__delete');
+    if (!_this._isDelitable) {
+      _this._deleteButton.classList.add('element__delete_hidden');
+      _this._deleteButton.disable = true;
+    }
+  });
+  _defineProperty(this, "toddleHeartElementState", function () {
+    console.log('isLiked in toddleState>>', _this._isLiked);
+    _this._card.querySelector('.element__heart_counter').textContent = _this._amountLikes;
+    if (_this._isLiked) {
+      _this.heartElement.classList.add('element__heart_clicked');
+    } else {
+      _this.heartElement.classList.remove('element__heart_clicked');
+    }
+  });
   _defineProperty(this, "createCard", function () {
     _this._card = _this._cardsTemplate.cloneNode(true).children[0];
     _this._image = _this._card.querySelector('.element__image');
     _this._image.src = _this._cardImgURL;
     _this._image.alt = _this._cardName;
     _this._card.querySelector('.element__title').textContent = _this._cardName;
-    _this._card.querySelector('.element__heart_counter').textContent = _this._amountLikes;
-    _this._deleteButton = _this._card.querySelector('.element__delete');
-    if (!_this._isDelitable) {
-      _this._deleteButton.classList.add('element__delete_hidden');
-      _this._deleteButton.disable = true;
-    }
+    _this._addDeliteButton();
     _this._addLikeListener();
     _this._addRemoveListener();
     _this._addViewListener();
+    _this.toddleHeartElementState();
     return _this._card;
   });
   this._cardName = cardData.name;
@@ -203,9 +249,11 @@ var Card = /*#__PURE__*/_createClass(function Card(cardData, cardsTemplateSelect
   this._id = cardData.id;
   this._ownerId = cardData.ownerId;
   this._isDelitable = cardData.isDelitable;
+  this._isLiked = cardData.isLiked;
   this._cardsTemplate = document.querySelector(cardsTemplateSelector).content;
   this._handleCardClick = handleCardClick;
   this._handleRemoveClick = handleRemoveClick;
+  this._handleLikeClick = handleLikeClick;
 });
 
 
@@ -872,24 +920,41 @@ var handleRemoveClick = function handleRemoveClick(removedElement) {
   popupRemoveCard.setEventListeners();
   popupRemoveCard.open();
 };
+var handleLikeClick = function handleLikeClick(isLiked, card) {
+  if (isLiked) {
+    api.deleteLike(card.getId()).then(function (data) {
+      card._amountLikes = data.likes.length;
+      data.likes.forEach(function (user) {
+        if (user._id === userInfo.getCurrentUserId()) {
+          card._isLiked = true;
+        } else {
+          card._isLiked = false;
+        }
+      });
+      console.log(card);
+      card.toddleHeartElementState();
+    });
+  } else {
+    api.putLike(card.getId()).then(function (data) {
+      card._amountLikes = data.likes.length;
+      data.likes.forEach(function (user) {
+        if (user._id === userInfo.getCurrentUserId()) {
+          card._isLiked = true;
+        } else {
+          card._isLiked = false;
+        }
+      });
+      console.log(card);
+      card.toddleHeartElementState();
+    });
+  }
+};
 var getCard = function getCard(cardData) {
   cardData.isDelitable = userInfo.getCurrentUserId() === cardData.ownerId;
-  return new _components_Card_js__WEBPACK_IMPORTED_MODULE_3__["default"](cardData, '.element__template', handleCardClick, handleRemoveClick).createCard();
+  return new _components_Card_js__WEBPACK_IMPORTED_MODULE_3__["default"](cardData, '.element__template', handleCardClick, handleRemoveClick, handleLikeClick).createCard();
 };
 var sectionCards = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.elements__holder');
-var downnloadCardPromise = api.getCards().then(function (data) {
-  var initialCards = [];
-  data.forEach(function (item) {
-    initialCards.push({
-      name: item.name,
-      link: item.link,
-      likes: item.likes,
-      id: item._id,
-      ownerId: item.owner._id
-    });
-  });
-  return initialCards;
-});
+var downnloadCardPromise = api.getCards();
 var userInfo = new _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_7__["default"]({
   nameSelector: '.profile__title',
   descriptionSelector: '.profile__subtitle',
@@ -905,8 +970,24 @@ var userInfoPromise = api.getUserInfo().then(function (data) {
 });
 Promise.all([downnloadCardPromise, userInfoPromise]).then(function (_ref2) {
   var _ref3 = _slicedToArray(_ref2, 1),
-    initialCards = _ref3[0];
+    data = _ref3[0];
+  var initialCards = [];
+  data.forEach(function (item) {
+    initialCards.push({
+      name: item.name,
+      link: item.link,
+      likes: item.likes,
+      id: item._id,
+      ownerId: item.owner._id,
+      isLiked: false
+    });
+  });
   initialCards.forEach(function (cardData) {
+    cardData.likes.forEach(function (user) {
+      if (user._id === userInfo.getCurrentUserId()) {
+        cardData.isLiked = true;
+      }
+    });
     sectionCards.addItem(getCard(cardData), true);
   });
 });
