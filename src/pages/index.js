@@ -33,28 +33,46 @@ const handleRemoveClick = function (removedElement) {
     popupRemoveCard.open();
 }
 
+const handleLikeClick = function (isLiked, card) {
+    if (isLiked) {
+        api.deleteLike(card.getId())
+            .then(data => {
+                card._amountLikes = data.likes.length;
+                data.likes.forEach((user) => {
+                    if (user._id === userInfo.getCurrentUserId()) {
+                        card._isLiked = true;
+                    } else {
+                        card._isLiked = false;
+                    }
+                })
+                console.log(card);
+                card.toddleHeartElementState();
+            })
+    } else {
+        api.putLike(card.getId())
+            .then(data => {
+                card._amountLikes = data.likes.length;
+                data.likes.forEach((user) => {
+                    if (user._id === userInfo.getCurrentUserId()) {
+                        card._isLiked = true;
+                    } else {
+                        card._isLiked = false;
+                    }
+                })
+                console.log(card);
+                card.toddleHeartElementState();
+            })
+    }
+}
+
 const getCard = function (cardData) {
     cardData.isDelitable = userInfo.getCurrentUserId() === cardData.ownerId;
-    return new Card(cardData, '.element__template', handleCardClick, handleRemoveClick).createCard();
+    return new Card(cardData, '.element__template', handleCardClick, handleRemoveClick, handleLikeClick).createCard();
 }
 
 const sectionCards = new Section('.elements__holder');
 
-const downnloadCardPromise = api.getCards()
-    .then((data) => {
-        const initialCards = [];
-        data.forEach((item) => {
-            initialCards.push({
-                name: item.name,
-                link: item.link,
-                likes: item.likes,
-                id: item._id,
-                ownerId: item.owner._id
-            });
-        });
-        return initialCards;
-    })
-
+const downnloadCardPromise = api.getCards();
 
 const userInfo = new UserInfo({
     nameSelector: '.profile__title',
@@ -73,8 +91,26 @@ const userInfoPromise = api.getUserInfo()
     });
 
 Promise.all([downnloadCardPromise, userInfoPromise])
-    .then(([initialCards]) => {
+    .then(([data]) => {
+        const initialCards = [];
+        data.forEach((item) => {
+            initialCards.push({
+                name: item.name,
+                link: item.link,
+                likes: item.likes,
+                id: item._id,
+                ownerId: item.owner._id,
+                isLiked: false
+            });
+        });
+
+
         initialCards.forEach(cardData => {
+            cardData.likes.forEach((user) => {
+                if (user._id === userInfo.getCurrentUserId()) {
+                    cardData.isLiked = true;
+                }
+            })
             sectionCards.addItem(getCard(cardData), true);
         })
     })

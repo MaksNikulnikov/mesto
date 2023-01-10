@@ -96,4 +96,36 @@ export default class Api {
             })
             .catch(err => console.error(err));
     }
+
+    putLike(cardId) {
+        return fetch(`${this._requests.toCards}/${cardId}/likes`, {
+            method: 'PUT',
+            headers: {
+                authorization: this._token
+            }
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Error: ${res.status}`);
+            })
+            .catch(err => console.error(err));
+    }
+
+    deleteLike(cardId) {
+        return fetch(`${this._requests.toCards}/${cardId}/likes`, {
+            method: 'DELETE',
+            headers: {
+                authorization: this._token
+            }
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Error: ${res.status}`);
+            })
+            .catch(err => console.error(err));
+    }
 }
