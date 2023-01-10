@@ -222,7 +222,6 @@ var Card = /*#__PURE__*/_createClass(function Card(cardData, cardsTemplateSelect
     }
   });
   _defineProperty(this, "toddleHeartElementState", function () {
-    console.log('isLiked in toddleState>>', _this._isLiked);
     _this._card.querySelector('.element__heart_counter').textContent = _this._amountLikes;
     if (_this._isLiked) {
       _this.heartElement.classList.add('element__heart_clicked');
@@ -427,8 +426,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
@@ -438,6 +435,9 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 var PopupRemoveElement = /*#__PURE__*/function (_Popup) {
   _inherits(PopupRemoveElement, _Popup);
@@ -446,6 +446,9 @@ var PopupRemoveElement = /*#__PURE__*/function (_Popup) {
     var _this;
     _classCallCheck(this, PopupRemoveElement);
     _this = _super.call(this, popupSelector);
+    _defineProperty(_assertThisInitialized(_this), "_removeElement", function () {
+      _this._remove(_this._removedElement);
+    });
     _this._remove = removeHandler;
     _this._buttonRemove = _this._popup.querySelector('.popup__submit-btn');
     return _this;
@@ -453,10 +456,7 @@ var PopupRemoveElement = /*#__PURE__*/function (_Popup) {
   _createClass(PopupRemoveElement, [{
     key: "setEventListeners",
     value: function setEventListeners() {
-      var _this2 = this;
-      this._buttonRemove.addEventListener('click', function () {
-        _this2._remove(_this2._removedElement);
-      });
+      this._buttonRemove.addEventListener('click', this._removeElement);
       _get(_getPrototypeOf(PopupRemoveElement.prototype), "setEventListeners", this).call(this);
     }
   }, {
@@ -468,6 +468,7 @@ var PopupRemoveElement = /*#__PURE__*/function (_Popup) {
     key: "close",
     value: function close() {
       this._removedElement = null;
+      this._buttonRemove.removeEventListener('click', this._removeElement);
       _get(_getPrototypeOf(PopupRemoveElement.prototype), "close", this).call(this);
     }
   }]);
@@ -714,11 +715,11 @@ var UserInfo = /*#__PURE__*/function () {
     key: "setUserInfo",
     value: function setUserInfo(_ref2) {
       var name = _ref2.name,
-        description = _ref2.description,
-        id = _ref2.id;
+        about = _ref2.about,
+        _id = _ref2._id;
       this._name = name;
-      this._description = description;
-      this._currentUserId = id;
+      this._description = about;
+      this._currentUserId = _id;
       this._renderInfo();
     }
   }, {
@@ -901,7 +902,26 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var api = new _components_Api__WEBPACK_IMPORTED_MODULE_9__["default"]();
 var popupProfileValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["default"], document.forms.formProfile);
 var popupAddCardValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["default"], document.forms.formAddCard);
-var popupWithImage = new _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_5__["default"]('.popup_view-image');
+var sectionCards = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.elements__holder');
+var handleRemoveClick = function handleRemoveClick(removedElement) {
+  popupRemoveCard.setRemovedElement(removedElement);
+  popupRemoveCard.setEventListeners();
+  popupRemoveCard.open();
+};
+var handleLikeClick = function handleLikeClick(isLiked, card) {
+  var promise = isLiked ? api.deleteLike(card.getId()) : api.putLike(card.getId());
+  promise.then(function (data) {
+    card._amountLikes = data.likes.length;
+    var islikedInResponce = false;
+    data.likes.forEach(function (user) {
+      if (user._id === userInfo.getCurrentUserId()) {
+        islikedInResponce = true;
+      }
+    });
+    card._isLiked = islikedInResponce;
+    card.toddleHeartElementState();
+  });
+};
 var handleCardClick = function handleCardClick(_ref) {
   var src = _ref.src,
     caption = _ref.caption;
@@ -911,50 +931,23 @@ var handleCardClick = function handleCardClick(_ref) {
     caption: caption
   });
 };
-var popupRemoveCard = new _components_PopupRemoveElement__WEBPACK_IMPORTED_MODULE_10__["default"]('.popup_remove-card', function (card) {
-  api.deleteCard(card.getId()).then(card.removeCard());
-  popupRemoveCard.close();
-});
-var handleRemoveClick = function handleRemoveClick(removedElement) {
-  popupRemoveCard.setRemovedElement(removedElement);
-  popupRemoveCard.setEventListeners();
-  popupRemoveCard.open();
-};
-var handleLikeClick = function handleLikeClick(isLiked, card) {
-  if (isLiked) {
-    api.deleteLike(card.getId()).then(function (data) {
-      card._amountLikes = data.likes.length;
-      data.likes.forEach(function (user) {
-        if (user._id === userInfo.getCurrentUserId()) {
-          card._isLiked = true;
-        } else {
-          card._isLiked = false;
-        }
-      });
-      console.log(card);
-      card.toddleHeartElementState();
-    });
-  } else {
-    api.putLike(card.getId()).then(function (data) {
-      card._amountLikes = data.likes.length;
-      data.likes.forEach(function (user) {
-        if (user._id === userInfo.getCurrentUserId()) {
-          card._isLiked = true;
-        } else {
-          card._isLiked = false;
-        }
-      });
-      console.log(card);
-      card.toddleHeartElementState();
-    });
-  }
-};
-var getCard = function getCard(cardData) {
+var getCard = function getCard(data) {
+  var cardData = {
+    name: data.name,
+    link: data.link,
+    likes: data.likes,
+    id: data._id,
+    ownerId: data.owner._id
+  };
   cardData.isDelitable = userInfo.getCurrentUserId() === cardData.ownerId;
+  cardData.isLiked = false;
+  cardData.likes.forEach(function (user) {
+    if (user._id === userInfo.getCurrentUserId()) {
+      cardData.isLiked = true;
+    }
+  });
   return new _components_Card_js__WEBPACK_IMPORTED_MODULE_3__["default"](cardData, '.element__template', handleCardClick, handleRemoveClick, handleLikeClick).createCard();
 };
-var sectionCards = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.elements__holder');
-var downnloadCardPromise = api.getCards();
 var userInfo = new _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_7__["default"]({
   nameSelector: '.profile__title',
   descriptionSelector: '.profile__subtitle',
@@ -962,34 +955,20 @@ var userInfo = new _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_7__["default
 });
 var userInfoPromise = api.getUserInfo().then(function (data) {
   userInfo.setAvatar(data.avatar);
-  userInfo.setUserInfo({
-    name: data.name,
-    description: data.about,
-    id: data._id
+  userInfo.setUserInfo(data);
+});
+Promise.all([api.getCards(), userInfoPromise]).then(function (_ref2) {
+  var _ref3 = _slicedToArray(_ref2, 1),
+    datas = _ref3[0];
+  datas.forEach(function (data) {
+    return sectionCards.addItem(getCard(data), true);
   });
 });
-Promise.all([downnloadCardPromise, userInfoPromise]).then(function (_ref2) {
-  var _ref3 = _slicedToArray(_ref2, 1),
-    data = _ref3[0];
-  var initialCards = [];
-  data.forEach(function (item) {
-    initialCards.push({
-      name: item.name,
-      link: item.link,
-      likes: item.likes,
-      id: item._id,
-      ownerId: item.owner._id,
-      isLiked: false
-    });
-  });
-  initialCards.forEach(function (cardData) {
-    cardData.likes.forEach(function (user) {
-      if (user._id === userInfo.getCurrentUserId()) {
-        cardData.isLiked = true;
-      }
-    });
-    sectionCards.addItem(getCard(cardData), true);
-  });
+var popupWithImage = new _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_5__["default"]('.popup_view-image');
+var popupRemoveCard = new _components_PopupRemoveElement__WEBPACK_IMPORTED_MODULE_10__["default"]('.popup_remove-card', function (card) {
+  console.log(card);
+  api.deleteCard(card.getId()).then(card.removeCard());
+  popupRemoveCard.close();
 });
 var profilePopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.popup_add-profile', function (event, inputValues) {
   event.preventDefault();
@@ -997,11 +976,7 @@ var profilePopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__
     name: inputValues.name,
     about: inputValues.description
   }).then(function (data) {
-    userInfo.setUserInfo({
-      name: data.name,
-      description: data.about,
-      id: data._id
-    });
+    userInfo.setUserInfo(data);
   });
   profilePopup.close();
   popupProfileValidator.toggleButtonState();
@@ -1009,13 +984,7 @@ var profilePopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__
 var newCardPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.popup_add-card', function (event, inputValues) {
   event.preventDefault();
   api.postCard(inputValues).then(function (data) {
-    sectionCards.addItem(getCard({
-      name: data.name,
-      link: data.link,
-      likes: data.likes,
-      id: data._id,
-      ownerId: data.owner._id
-    }), false);
+    sectionCards.addItem(getCard(data), false);
   });
   newCardPopup.close();
   popupAddCardValidator.toggleButtonState();
