@@ -8,7 +8,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import Section from '../components/Section.js';
 import Api from '../components/Api';
-import PopupRemoveElement from '../components/PopupRemoveElement';
+import PopupWithButton from '../components/PopupWithButton';
 
 const api = new Api();
 const popupProfileValidator = new FormValidator(validationConfig, document.forms.formProfile);
@@ -16,7 +16,14 @@ const popupAddCardValidator = new FormValidator(validationConfig, document.forms
 const sectionCards = new Section('.elements__holder');
 
 const handleRemoveClick = function (removedElement) {
-    popupRemoveCard.setRemovedElement(removedElement);
+   
+    const popupRemoveCard = new PopupWithButton('.popup_remove-card', (card) => {
+        api.deleteCard(card.getId())
+            .then(card.removeCard());
+        popupRemoveCard.removeEventListener();
+        popupRemoveCard.close();
+    }, removedElement);
+
     popupRemoveCard.setEventListeners();
     popupRemoveCard.open();
 }
@@ -76,13 +83,6 @@ Promise.all([api.getCards(), userInfoPromise])
     .then(([datas]) => { datas.forEach(data => sectionCards.addItem(getCard(data), true)) });
 
 const popupWithImage = new PopupWithImage('.popup_view-image')
-
-const popupRemoveCard = new PopupRemoveElement('.popup_remove-card', (card) => {
-    console.log(card);
-    api.deleteCard(card.getId())
-        .then(card.removeCard());
-    popupRemoveCard.close();
-});
 
 const profilePopup = new PopupWithForm('.popup_add-profile', (event, inputValues) => {
     event.preventDefault();
