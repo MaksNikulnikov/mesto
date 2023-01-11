@@ -411,15 +411,15 @@ var Popup = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/components/PopupRemoveElement.js":
-/*!**********************************************!*\
-  !*** ./src/components/PopupRemoveElement.js ***!
-  \**********************************************/
+/***/ "./src/components/PopupWithButton.js":
+/*!*******************************************!*\
+  !*** ./src/components/PopupWithButton.js ***!
+  \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ PopupRemoveElement)
+/* harmony export */   "default": () => (/* binding */ PopupWithButton)
 /* harmony export */ });
 /* harmony import */ var _Popup_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Popup.js */ "./src/components/Popup.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -439,40 +439,34 @@ function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key i
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
-var PopupRemoveElement = /*#__PURE__*/function (_Popup) {
-  _inherits(PopupRemoveElement, _Popup);
-  var _super = _createSuper(PopupRemoveElement);
-  function PopupRemoveElement(popupSelector, removeHandler) {
+var PopupWithButton = /*#__PURE__*/function (_Popup) {
+  _inherits(PopupWithButton, _Popup);
+  var _super = _createSuper(PopupWithButton);
+  function PopupWithButton(popupSelector, handler, parameter) {
     var _this;
-    _classCallCheck(this, PopupRemoveElement);
+    _classCallCheck(this, PopupWithButton);
     _this = _super.call(this, popupSelector);
-    _defineProperty(_assertThisInitialized(_this), "_removeElement", function () {
-      _this._remove(_this._removedElement);
+    _defineProperty(_assertThisInitialized(_this), "_handle", function () {
+      _this._handler(_this._parameter);
     });
-    _this._remove = removeHandler;
-    _this._buttonRemove = _this._popup.querySelector('.popup__submit-btn');
+    _this._handler = handler;
+    _this._parameter = parameter;
+    _this._button = _this._popup.querySelector('.popup__submit-btn');
     return _this;
   }
-  _createClass(PopupRemoveElement, [{
+  _createClass(PopupWithButton, [{
     key: "setEventListeners",
     value: function setEventListeners() {
-      this._buttonRemove.addEventListener('click', this._removeElement);
-      _get(_getPrototypeOf(PopupRemoveElement.prototype), "setEventListeners", this).call(this);
+      this._button.addEventListener('click', this._handle);
+      _get(_getPrototypeOf(PopupWithButton.prototype), "setEventListeners", this).call(this);
     }
   }, {
-    key: "setRemovedElement",
-    value: function setRemovedElement(removedElement) {
-      this._removedElement = removedElement;
-    }
-  }, {
-    key: "close",
-    value: function close() {
-      this._removedElement = null;
-      this._buttonRemove.removeEventListener('click', this._removeElement);
-      _get(_getPrototypeOf(PopupRemoveElement.prototype), "close", this).call(this);
+    key: "removeEventListener",
+    value: function removeEventListener() {
+      this._button.removeEventListener('click', this._handle);
     }
   }]);
-  return PopupRemoveElement;
+  return PopupWithButton;
 }(_Popup_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
@@ -881,7 +875,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/UserInfo.js */ "./src/components/UserInfo.js");
 /* harmony import */ var _components_Section_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/Section.js */ "./src/components/Section.js");
 /* harmony import */ var _components_Api__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/Api */ "./src/components/Api.js");
-/* harmony import */ var _components_PopupRemoveElement__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/PopupRemoveElement */ "./src/components/PopupRemoveElement.js");
+/* harmony import */ var _components_PopupWithButton__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/PopupWithButton */ "./src/components/PopupWithButton.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -904,7 +898,11 @@ var popupProfileValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_M
 var popupAddCardValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["default"], document.forms.formAddCard);
 var sectionCards = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.elements__holder');
 var handleRemoveClick = function handleRemoveClick(removedElement) {
-  popupRemoveCard.setRemovedElement(removedElement);
+  var popupRemoveCard = new _components_PopupWithButton__WEBPACK_IMPORTED_MODULE_10__["default"]('.popup_remove-card', function (card) {
+    api.deleteCard(card.getId()).then(card.removeCard());
+    popupRemoveCard.removeEventListener();
+    popupRemoveCard.close();
+  }, removedElement);
   popupRemoveCard.setEventListeners();
   popupRemoveCard.open();
 };
@@ -965,11 +963,6 @@ Promise.all([api.getCards(), userInfoPromise]).then(function (_ref2) {
   });
 });
 var popupWithImage = new _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_5__["default"]('.popup_view-image');
-var popupRemoveCard = new _components_PopupRemoveElement__WEBPACK_IMPORTED_MODULE_10__["default"]('.popup_remove-card', function (card) {
-  console.log(card);
-  api.deleteCard(card.getId()).then(card.removeCard());
-  popupRemoveCard.close();
-});
 var profilePopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.popup_add-profile', function (event, inputValues) {
   event.preventDefault();
   api.patchUserInfo({
