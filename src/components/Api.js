@@ -5,7 +5,8 @@ export default class Api {
         this._serverName = 'https://nomoreparties.co';
         this._requests = {
             toUserInfo: `${this._serverName}/v1/${this._groupId}/users/me`,
-            toCards: `${this._serverName}/v1/${this._groupId}/cards`
+            toCards: `${this._serverName}/v1/${this._groupId}/cards`,
+            toUserInfoAvatar: `${this._serverName}/v1/${this._groupId}/users/me/avatar`
         }
     }
 
@@ -49,6 +50,26 @@ export default class Api {
             body: JSON.stringify({
                 name: name,
                 about: about
+            })
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Error: ${res.status}`);
+            })
+            .catch(err => console.error(err));
+    }
+
+    patchUserInfoAvatar({ link }) {
+        return fetch(this._requests.toUserInfoAvatar, {
+            method: 'PATCH',
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                avatar: link
             })
         })
             .then(res => {

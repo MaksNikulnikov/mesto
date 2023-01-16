@@ -1,6 +1,11 @@
 import './index.css';
 import validationConfig from '../utils/config.js';
-import { popupAddCardButtonOpen, popupProfileButtonOpen } from '../utils/constants.js';
+import {
+    popupAddCardButtonOpen,
+    popupProfileButtonOpen,
+    popupChangeAvatarButtonOpen,
+    avatar
+} from '../utils/constants.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
@@ -13,10 +18,11 @@ import PopupWithButton from '../components/PopupWithButton';
 const api = new Api();
 const popupProfileValidator = new FormValidator(validationConfig, document.forms.formProfile);
 const popupAddCardValidator = new FormValidator(validationConfig, document.forms.formAddCard);
+const popupChangeAvatarValidator = new FormValidator(validationConfig, document.forms.formChangeProfileAvatar);
 const sectionCards = new Section('.elements__holder');
 
 const handleRemoveClick = function (removedElement) {
-   
+
     const popupRemoveCard = new PopupWithButton('.popup_remove-card', (card) => {
         api.deleteCard(card.getId())
             .then(card.removeCard());
@@ -101,19 +107,34 @@ const newCardPopup = new PopupWithForm('.popup_add-card', (event, inputValues) =
             sectionCards.addItem(getCard(data), false);
         })
     newCardPopup.close();
-    popupAddCardValidator.toggleButtonState();
 });
+
+const changeAvatarPopup = new PopupWithForm('.popup_change-profile-avatar', (event, inputValues) => {
+    event.preventDefault();
+    api.patchUserInfoAvatar(inputValues)
+        .then(data => avatar.src = data.avatar);
+    changeAvatarPopup.close();
+})
 
 newCardPopup.setEventListeners();
 profilePopup.setEventListeners();
+changeAvatarPopup.setEventListeners();
 
 popupProfileButtonOpen.addEventListener('click', function () {
     profilePopup.setInputValues(userInfo.getUserInfo());
     profilePopup.open();
+    popupProfileValidator.toggleButtonState();
 });
 popupAddCardButtonOpen.addEventListener('click', function () {
+    popupAddCardValidator.toggleButtonState();
     newCardPopup.open({});
+})
+
+popupChangeAvatarButtonOpen.addEventListener('click', function () {
+    popupChangeAvatarValidator.toggleButtonState();
+    changeAvatarPopup.open();
 })
 
 popupAddCardValidator.enableValidation();
 popupProfileValidator.enableValidation();
+popupChangeAvatarValidator.enableValidation();

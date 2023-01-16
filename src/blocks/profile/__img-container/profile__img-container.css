@@ -1,0 +1,37 @@
+.profile__img-container {
+    position: relative;
+}
+
+.profile__img-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .8);
+    opacity: 0;
+}
+
+.profile__img-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url(../../../images/pencil.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+}
+
+.profile__img-container:hover {
+    cursor: pointer;
+}
+
+.profile__img-container:hover::before,
+.profile__img-container:hover::after {
+    opacity: 1;
+    transition: opacity 0.2s;
+}
