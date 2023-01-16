@@ -33,7 +33,7 @@
 /*!***********************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/profile/__image/profile__image.css ***!
   \***********************************************************************************************************************************************************************/
-.profile__image{height:100%;max-height:120px;max-width:120px;width:100%}@media (max-width:1280px){.profile__image{margin-left:calc(71.11111px - 5.55556vw)}}@media (max-width:920px){.profile__image{margin-left:calc(-10.66667px + 3.33333vw)}}
+.profile__image{border-radius:50%;height:120px;-o-object-fit:cover;object-fit:cover;width:120px}@media (max-width:1280px){.profile__image{margin-left:calc(71.11111px - 5.55556vw)}}@media (max-width:920px){.profile__image{margin-left:calc(-10.66667px + 3.33333vw)}}
 /*!*********************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/profile/__info/profile__info.css ***!
   \*********************************************************************************************************************************************************************/
@@ -170,6 +170,10 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/element/__delete/_hidden/element__delete_hidden.css ***!
   \****************************************************************************************************************************************************************************************/
 .element__delete_hidden{display:none}
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/profile/__img-container/profile__img-container.css ***!
+  \***************************************************************************************************************************************************************************************/
+.profile__img-container{position:relative}.profile__img-container:before{background:rgba(0,0,0,.8)}.profile__img-container:after,.profile__img-container:before{bottom:0;content:"";left:0;opacity:0;position:absolute;right:0;top:0}.profile__img-container:after{background:url(ae1a976ddb506239e9f0.svg);background-position:50%;background-repeat:no-repeat}.profile__img-container:hover{cursor:pointer}.profile__img-container:hover:after,.profile__img-container:hover:before{opacity:1;transition:opacity .2s}
 /*!*********************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/pages/index.css ***!
   \*********************************************************************************************************************************************/

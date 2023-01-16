@@ -13,7 +13,9 @@
     </header>
     <main class="main">
         <section class="profile">
-            <img class="profile__image" src="" alt="аватар">
+            <div class="profile__img-container">
+                <img class="profile__image" src="" alt="аватар">
+            </div>
             <div class="profile__info">
                 <h1 class="profile__title">Жак-Ив Кусто</h1>
                 <button type="button" class="profile__edit-button"></button>
@@ -98,6 +100,22 @@
             <button type="button" class="popup__close-btn"></button>
             <h2 class="popup__title">Вы уверены?</h2>
             <button type="submit" class="popup__submit-btn">Да</button>
+        </div>
+    </section>
+    <section class="popup popup_change-profile-avatar">
+        <div class="popup__container">
+            <button type="button" class="popup__close-btn"></button>
+            <h2 class="popup__title">Обновить аватар</h2>
+            <form name="formChangeProfileAvatar" class="popup__form" novalidate>
+                <section class="popup__form-section">
+                    <input name="link" type="url" placeholder="https://somewebsite.com/someimage.jpg" value=""
+                        class="popup__text popup__text_type_url" required>
+                    <span class="popup__error"></span>
+                </section>
+                <button type="submit" class="popup__submit-btn">
+                    Сохранить
+                </button>
+            </form>
         </div>
     </section>
 </body>

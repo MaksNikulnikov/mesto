@@ -26,7 +26,8 @@ var Api = /*#__PURE__*/function () {
     this._serverName = 'https://nomoreparties.co';
     this._requests = {
       toUserInfo: "".concat(this._serverName, "/v1/").concat(this._groupId, "/users/me"),
-      toCards: "".concat(this._serverName, "/v1/").concat(this._groupId, "/cards")
+      toCards: "".concat(this._serverName, "/v1/").concat(this._groupId, "/cards"),
+      toUserInfoAvatar: "".concat(this._serverName, "/v1/").concat(this._groupId, "/users/me/avatar")
     };
   }
   _createClass(Api, [{
@@ -86,10 +87,32 @@ var Api = /*#__PURE__*/function () {
       });
     }
   }, {
+    key: "patchUserInfoAvatar",
+    value: function patchUserInfoAvatar(_ref2) {
+      var link = _ref2.link;
+      return fetch(this._requests.toUserInfoAvatar, {
+        method: 'PATCH',
+        headers: {
+          authorization: this._token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          avatar: link
+        })
+      }).then(function (res) {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject("Error: ".concat(res.status));
+      }).catch(function (err) {
+        return console.error(err);
+      });
+    }
+  }, {
     key: "postCard",
-    value: function postCard(_ref2) {
-      var name = _ref2.name,
-        link = _ref2.link;
+    value: function postCard(_ref3) {
+      var name = _ref3.name,
+        link = _ref3.link;
       return fetch(this._requests.toCards, {
         method: 'POST',
         headers: {
@@ -761,31 +784,15 @@ var validationConfig = {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "initialCards": () => (/* binding */ initialCards),
+/* harmony export */   "avatar": () => (/* binding */ avatar),
 /* harmony export */   "popupAddCardButtonOpen": () => (/* binding */ popupAddCardButtonOpen),
+/* harmony export */   "popupChangeAvatarButtonOpen": () => (/* binding */ popupChangeAvatarButtonOpen),
 /* harmony export */   "popupProfileButtonOpen": () => (/* binding */ popupProfileButtonOpen)
 /* harmony export */ });
-var initialCards = [{
-  name: 'Архыз',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-}, {
-  name: 'Челябинская область',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-}, {
-  name: 'Иваново',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-}, {
-  name: 'Камчатка',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-}, {
-  name: 'Холмогорский район',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-}, {
-  name: 'Байкал',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-}];
 var popupProfileButtonOpen = document.querySelector('.profile__edit-button');
 var popupAddCardButtonOpen = document.querySelector('.profile__add-button');
+var popupChangeAvatarButtonOpen = document.querySelector('.profile__img-container');
+var avatar = document.querySelector('.profile__image');
 
 
 /***/ }),
@@ -896,6 +903,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var api = new _components_Api__WEBPACK_IMPORTED_MODULE_9__["default"]();
 var popupProfileValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["default"], document.forms.formProfile);
 var popupAddCardValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["default"], document.forms.formAddCard);
+var popupChangeAvatarValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["default"], document.forms.formChangeProfileAvatar);
 var sectionCards = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.elements__holder');
 var handleRemoveClick = function handleRemoveClick(removedElement) {
   var popupRemoveCard = new _components_PopupWithButton__WEBPACK_IMPORTED_MODULE_10__["default"]('.popup_remove-card', function (card) {
@@ -980,19 +988,33 @@ var newCardPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__
     sectionCards.addItem(getCard(data), false);
   });
   newCardPopup.close();
-  popupAddCardValidator.toggleButtonState();
+});
+var changeAvatarPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.popup_change-profile-avatar', function (event, inputValues) {
+  event.preventDefault();
+  api.patchUserInfoAvatar(inputValues).then(function (data) {
+    return _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.avatar.src = data.avatar;
+  });
+  changeAvatarPopup.close();
 });
 newCardPopup.setEventListeners();
 profilePopup.setEventListeners();
+changeAvatarPopup.setEventListeners();
 _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.popupProfileButtonOpen.addEventListener('click', function () {
   profilePopup.setInputValues(userInfo.getUserInfo());
   profilePopup.open();
+  popupProfileValidator.toggleButtonState();
 });
 _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.popupAddCardButtonOpen.addEventListener('click', function () {
+  popupAddCardValidator.toggleButtonState();
   newCardPopup.open({});
+});
+_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.popupChangeAvatarButtonOpen.addEventListener('click', function () {
+  popupChangeAvatarValidator.toggleButtonState();
+  changeAvatarPopup.open();
 });
 popupAddCardValidator.enableValidation();
 popupProfileValidator.enableValidation();
+popupChangeAvatarValidator.enableValidation();
 })();
 
 /******/ })()
