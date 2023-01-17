@@ -19,29 +19,35 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var Api = /*#__PURE__*/function () {
-  function Api() {
+  function Api(apiConfig) {
     _classCallCheck(this, Api);
-    this._token = 'f4e3da40-9a8f-4342-ac62-1d7a154eaa67';
-    this._groupId = 'cohort-57';
-    this._serverName = 'https://nomoreparties.co';
-    this._requests = {
-      toUserInfo: "".concat(this._serverName, "/v1/").concat(this._groupId, "/users/me"),
-      toCards: "".concat(this._serverName, "/v1/").concat(this._groupId, "/cards"),
-      toUserInfoAvatar: "".concat(this._serverName, "/v1/").concat(this._groupId, "/users/me/avatar")
+    this._token = apiConfig.token;
+    this._groupId = apiConfig.groupId;
+    this._serverName = apiConfig.serverName;
+    this._mainRequest = "".concat(this._serverName, "/v1/").concat(this._groupId), this._requests = {
+      toUserInfo: "".concat(this._mainRequest, "/users/me"),
+      toCards: "".concat(this._mainRequest, "/cards"),
+      toUserInfoAvatar: "".concat(this._mainRequest, "/users/me/avatar")
     };
   }
   _createClass(Api, [{
+    key: "_handleResponce",
+    value: function _handleResponce(res) {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject("Error: ".concat(res.status));
+    }
+  }, {
     key: "getUserInfo",
     value: function getUserInfo() {
+      var _this = this;
       return fetch(this._requests.toUserInfo, {
         headers: {
           authorization: this._token
         }
       }).then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject("Error: ".concat(res.status));
+        return _this._handleResponce(res);
       }).catch(function (err) {
         return console.error(err);
       });
@@ -49,15 +55,13 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "getCards",
     value: function getCards() {
+      var _this2 = this;
       return fetch(this._requests.toCards, {
         headers: {
           authorization: this._token
         }
       }).then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject("Error: ".concat(res.status));
+        return _this2._handleResponce(res);
       }).catch(function (err) {
         return console.error(err);
       });
@@ -65,6 +69,7 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "patchUserInfo",
     value: function patchUserInfo(_ref) {
+      var _this3 = this;
       var name = _ref.name,
         about = _ref.about;
       return fetch(this._requests.toUserInfo, {
@@ -78,10 +83,7 @@ var Api = /*#__PURE__*/function () {
           about: about
         })
       }).then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject("Error: ".concat(res.status));
+        return _this3._handleResponce(res);
       }).catch(function (err) {
         return console.error(err);
       });
@@ -89,6 +91,7 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "patchUserInfoAvatar",
     value: function patchUserInfoAvatar(_ref2) {
+      var _this4 = this;
       var link = _ref2.link;
       return fetch(this._requests.toUserInfoAvatar, {
         method: 'PATCH',
@@ -100,10 +103,7 @@ var Api = /*#__PURE__*/function () {
           avatar: link
         })
       }).then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject("Error: ".concat(res.status));
+        return _this4._handleResponce(res);
       }).catch(function (err) {
         return console.error(err);
       });
@@ -111,6 +111,7 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "postCard",
     value: function postCard(_ref3) {
+      var _this5 = this;
       var name = _ref3.name,
         link = _ref3.link;
       return fetch(this._requests.toCards, {
@@ -124,10 +125,7 @@ var Api = /*#__PURE__*/function () {
           link: link
         })
       }).then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject("Error: ".concat(res.status));
+        return _this5._handleResponce(res);
       }).catch(function (err) {
         return console.error(err);
       });
@@ -135,16 +133,14 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "deleteCard",
     value: function deleteCard(cardId) {
+      var _this6 = this;
       return fetch("".concat(this._requests.toCards, "/").concat(cardId), {
         method: 'DELETE',
         headers: {
           authorization: this._token
         }
       }).then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject("Error: ".concat(res.status));
+        return _this6._handleResponce(res);
       }).catch(function (err) {
         return console.error(err);
       });
@@ -152,16 +148,14 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "putLike",
     value: function putLike(cardId) {
+      var _this7 = this;
       return fetch("".concat(this._requests.toCards, "/").concat(cardId, "/likes"), {
         method: 'PUT',
         headers: {
           authorization: this._token
         }
       }).then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject("Error: ".concat(res.status));
+        return _this7._handleResponce(res);
       }).catch(function (err) {
         return console.error(err);
       });
@@ -169,16 +163,14 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "deleteLike",
     value: function deleteLike(cardId) {
+      var _this8 = this;
       return fetch("".concat(this._requests.toCards, "/").concat(cardId, "/likes"), {
         method: 'DELETE',
         headers: {
           authorization: this._token
         }
       }).then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject("Error: ".concat(res.status));
+        return _this8._handleResponce(res);
       }).catch(function (err) {
         return console.error(err);
       });
@@ -532,9 +524,20 @@ var PopupWithForm = /*#__PURE__*/function (_Popup) {
     _this._handleFormSubmit = handleFormSubmit;
     _this._inputs = _this._popup.querySelectorAll('.popup__text');
     _this._form = _this._popup.querySelector('.popup__form');
+    _this._submitButton = _this._form.querySelector('.popup__submit-btn');
     return _this;
   }
   _createClass(PopupWithForm, [{
+    key: "showLoading",
+    value: function showLoading() {
+      this._submitButton.textContent = 'Сохранение...';
+    }
+  }, {
+    key: "showLoadingIsFinished",
+    value: function showLoadingIsFinished() {
+      this._submitButton.textContent = 'Сохранить';
+    }
+  }, {
     key: "_getInputValues",
     value: function _getInputValues() {
       var inputValues = {};
@@ -622,7 +625,7 @@ var PopupWithImage = /*#__PURE__*/function (_Popup) {
         caption = _ref.caption;
       this._imageElement.src = src;
       this._imageElement.alt = caption;
-      this._descriptionElement.textContent = this._caption;
+      this._descriptionElement.textContent = caption;
       _get(_getPrototypeOf(PopupWithImage.prototype), "open", this).call(this);
     }
   }]);
@@ -760,7 +763,8 @@ var UserInfo = /*#__PURE__*/function () {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "apiConfig": () => (/* binding */ apiConfig),
+/* harmony export */   "validationConfig": () => (/* binding */ validationConfig)
 /* harmony export */ });
 var validationConfig = {
   formSelector: '.popup__form',
@@ -772,7 +776,12 @@ var validationConfig = {
   errorClass: 'popup__error_visible',
   inputInvalidClass: 'popup__text_invalid'
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (validationConfig);
+var apiConfig = {
+  token: 'f4e3da40-9a8f-4342-ac62-1d7a154eaa67',
+  groupId: 'cohort-57',
+  serverName: 'https://nomoreparties.co'
+};
+
 
 /***/ }),
 
@@ -900,10 +909,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var api = new _components_Api__WEBPACK_IMPORTED_MODULE_9__["default"]();
-var popupProfileValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["default"], document.forms.formProfile);
-var popupAddCardValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["default"], document.forms.formAddCard);
-var popupChangeAvatarValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["default"], document.forms.formChangeProfileAvatar);
+var api = new _components_Api__WEBPACK_IMPORTED_MODULE_9__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.apiConfig);
+var popupProfileValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.formProfile);
+var popupAddCardValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.formAddCard);
+var popupChangeAvatarValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.formChangeProfileAvatar);
 var sectionCards = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.elements__holder');
 var handleRemoveClick = function handleRemoveClick(removedElement) {
   var popupRemoveCard = new _components_PopupWithButton__WEBPACK_IMPORTED_MODULE_10__["default"]('.popup_remove-card', function (card) {
@@ -973,28 +982,34 @@ Promise.all([api.getCards(), userInfoPromise]).then(function (_ref2) {
 var popupWithImage = new _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_5__["default"]('.popup_view-image');
 var profilePopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.popup_add-profile', function (event, inputValues) {
   event.preventDefault();
+  profilePopup.showLoading();
   api.patchUserInfo({
     name: inputValues.name,
     about: inputValues.description
   }).then(function (data) {
     userInfo.setUserInfo(data);
+    profilePopup.close();
+    profilePopup.showLoadingIsFinished();
+    popupProfileValidator.toggleButtonState();
   });
-  profilePopup.close();
-  popupProfileValidator.toggleButtonState();
 });
 var newCardPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.popup_add-card', function (event, inputValues) {
   event.preventDefault();
+  newCardPopup.showLoading();
   api.postCard(inputValues).then(function (data) {
     sectionCards.addItem(getCard(data), false);
+    newCardPopup.close();
+    newCardPopup.showLoadingIsFinished();
   });
-  newCardPopup.close();
 });
 var changeAvatarPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.popup_change-profile-avatar', function (event, inputValues) {
   event.preventDefault();
+  changeAvatarPopup.showLoading();
   api.patchUserInfoAvatar(inputValues).then(function (data) {
-    return _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.avatar.src = data.avatar;
+    _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.avatar.src = data.avatar;
+    changeAvatarPopup.close();
+    changeAvatarPopup.showLoadingIsFinished();
   });
-  changeAvatarPopup.close();
 });
 newCardPopup.setEventListeners();
 profilePopup.setEventListeners();
