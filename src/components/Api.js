@@ -1,13 +1,21 @@
 export default class Api {
-    constructor() {
-        this._token = 'f4e3da40-9a8f-4342-ac62-1d7a154eaa67';
-        this._groupId = 'cohort-57';
-        this._serverName = 'https://nomoreparties.co';
-        this._requests = {
-            toUserInfo: `${this._serverName}/v1/${this._groupId}/users/me`,
-            toCards: `${this._serverName}/v1/${this._groupId}/cards`,
-            toUserInfoAvatar: `${this._serverName}/v1/${this._groupId}/users/me/avatar`
+    constructor(apiConfig) {
+        this._token = apiConfig.token;
+        this._groupId = apiConfig.groupId;
+        this._serverName = apiConfig.serverName;
+        this._mainRequest = `${this._serverName}/v1/${this._groupId}`,
+            this._requests = {
+                toUserInfo: `${this._mainRequest}/users/me`,
+                toCards: `${this._mainRequest}/cards`,
+                toUserInfoAvatar: `${this._mainRequest}/users/me/avatar`
+            };
+    }
+
+    _handleResponce(res) {
+        if (res.ok) {
+            return res.json();
         }
+        return Promise.reject(`Error: ${res.status}`);
     }
 
     getUserInfo() {
@@ -16,12 +24,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(`Error: ${res.status}`);
-            })
+            .then(res => this._handleResponce(res))
             .catch(err => console.error(err));
     }
 
@@ -31,12 +34,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(`Error: ${res.status}`);
-            })
+            .then(res => this._handleResponce(res))
             .catch(err => console.error(err));
     }
 
@@ -52,12 +50,7 @@ export default class Api {
                 about: about
             })
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(`Error: ${res.status}`);
-            })
+            .then(res => this._handleResponce(res))
             .catch(err => console.error(err));
     }
 
@@ -72,12 +65,7 @@ export default class Api {
                 avatar: link
             })
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(`Error: ${res.status}`);
-            })
+            .then(res => this._handleResponce(res))
             .catch(err => console.error(err));
     }
 
@@ -93,12 +81,7 @@ export default class Api {
                 link: link
             })
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(`Error: ${res.status}`);
-            })
+            .then(res => this._handleResponce(res))
             .catch(err => console.error(err));
     }
 
@@ -109,12 +92,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(`Error: ${res.status}`);
-            })
+            .then(res => this._handleResponce(res))
             .catch(err => console.error(err));
     }
 
@@ -125,12 +103,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(`Error: ${res.status}`);
-            })
+            .then(res => this._handleResponce(res))
             .catch(err => console.error(err));
     }
 
@@ -141,12 +114,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(`Error: ${res.status}`);
-            })
+            .then(res => this._handleResponce(res))
             .catch(err => console.error(err));
     }
 }

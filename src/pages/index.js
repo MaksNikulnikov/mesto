@@ -1,5 +1,8 @@
 import './index.css';
-import validationConfig from '../utils/config.js';
+import {
+    validationConfig,
+    apiConfig
+} from '../utils/config.js';
 import {
     popupAddCardButtonOpen,
     popupProfileButtonOpen,
@@ -15,7 +18,7 @@ import Section from '../components/Section.js';
 import Api from '../components/Api';
 import PopupWithButton from '../components/PopupWithButton';
 
-const api = new Api();
+const api = new Api(apiConfig);
 const popupProfileValidator = new FormValidator(validationConfig, document.forms.formProfile);
 const popupAddCardValidator = new FormValidator(validationConfig, document.forms.formAddCard);
 const popupChangeAvatarValidator = new FormValidator(validationConfig, document.forms.formChangeProfileAvatar);
@@ -92,28 +95,36 @@ const popupWithImage = new PopupWithImage('.popup_view-image')
 
 const profilePopup = new PopupWithForm('.popup_add-profile', (event, inputValues) => {
     event.preventDefault();
+    profilePopup.showLoading();
     api.patchUserInfo({ name: inputValues.name, about: inputValues.description })
         .then(data => {
-            userInfo.setUserInfo(data)
+            userInfo.setUserInfo(data);
+            profilePopup.close();
+            profilePopup.showLoadingIsFinished();
+            popupProfileValidator.toggleButtonState();
         });
-    profilePopup.close();
-    popupProfileValidator.toggleButtonState();
 });
 
 const newCardPopup = new PopupWithForm('.popup_add-card', (event, inputValues) => {
     event.preventDefault();
+    newCardPopup.showLoading();
     api.postCard(inputValues)
         .then(data => {
             sectionCards.addItem(getCard(data), false);
-        })
-    newCardPopup.close();
+            newCardPopup.close();
+            newCardPopup.showLoadingIsFinished();
+        });
 });
 
 const changeAvatarPopup = new PopupWithForm('.popup_change-profile-avatar', (event, inputValues) => {
     event.preventDefault();
+    changeAvatarPopup.showLoading();
     api.patchUserInfoAvatar(inputValues)
-        .then(data => avatar.src = data.avatar);
-    changeAvatarPopup.close();
+        .then(data => {
+            avatar.src = data.avatar;
+            changeAvatarPopup.close();
+            changeAvatarPopup.showLoadingIsFinished();
+        });
 })
 
 newCardPopup.setEventListeners();

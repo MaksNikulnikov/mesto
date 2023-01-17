@@ -1,7 +1,6 @@
 .popup__container {
     max-width: 430px;
     width: 100%;
-    min-height: 330px;
     margin: auto;
     position: absolute;
     top: 50%;
@@ -19,6 +18,5 @@
 @media all and (max-width:1280px) {
     .popup__container {
         max-width: calc(430px - ((1280px - 100vw) / 960 * (430 - 282)));
-        min-height: calc(330px - ((1280px - 100vw) / 960 * (330 - 322)));
     }
 }

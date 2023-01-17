@@ -8,4 +8,17 @@
     .popup__form-section {
         max-width: calc(358px - ((1280px - 100vw) / 960 * (358 - 238)));
     }
+
+    .popup__form-section:first-child {
+        margin-top: calc(50px + ((1280px - 100vw) / 960 * (75 - 50)));
+    }
 }
+
+.popup__form-section:first-child {
+    margin-top: 50px;
+}
+
+.popup__form-section:last-of-type {
+    margin-bottom: 10px;
+}
+
