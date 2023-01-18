@@ -48,8 +48,6 @@ var Api = /*#__PURE__*/function () {
         }
       }).then(function (res) {
         return _this._handleResponce(res);
-      }).catch(function (err) {
-        return console.error(err);
       });
     }
   }, {
@@ -62,8 +60,6 @@ var Api = /*#__PURE__*/function () {
         }
       }).then(function (res) {
         return _this2._handleResponce(res);
-      }).catch(function (err) {
-        return console.error(err);
       });
     }
   }, {
@@ -84,8 +80,6 @@ var Api = /*#__PURE__*/function () {
         })
       }).then(function (res) {
         return _this3._handleResponce(res);
-      }).catch(function (err) {
-        return console.error(err);
       });
     }
   }, {
@@ -104,8 +98,6 @@ var Api = /*#__PURE__*/function () {
         })
       }).then(function (res) {
         return _this4._handleResponce(res);
-      }).catch(function (err) {
-        return console.error(err);
       });
     }
   }, {
@@ -126,8 +118,6 @@ var Api = /*#__PURE__*/function () {
         })
       }).then(function (res) {
         return _this5._handleResponce(res);
-      }).catch(function (err) {
-        return console.error(err);
       });
     }
   }, {
@@ -141,8 +131,6 @@ var Api = /*#__PURE__*/function () {
         }
       }).then(function (res) {
         return _this6._handleResponce(res);
-      }).catch(function (err) {
-        return console.error(err);
       });
     }
   }, {
@@ -156,8 +144,6 @@ var Api = /*#__PURE__*/function () {
         }
       }).then(function (res) {
         return _this7._handleResponce(res);
-      }).catch(function (err) {
-        return console.error(err);
       });
     }
   }, {
@@ -171,8 +157,6 @@ var Api = /*#__PURE__*/function () {
         }
       }).then(function (res) {
         return _this8._handleResponce(res);
-      }).catch(function (err) {
-        return console.error(err);
       });
     }
   }]);
@@ -193,82 +177,103 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ Card)
 /* harmony export */ });
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-var Card = /*#__PURE__*/_createClass(function Card(cardData, cardsTemplateSelector, handleCardClick, handleRemoveClick, handleLikeClick) {
-  var _this = this;
-  _classCallCheck(this, Card);
-  _defineProperty(this, "_addLikeListener", function () {
-    _this.heartElement = _this._card.querySelector('.element__heart');
-    _this.heartElement.addEventListener('click', function () {
-      _this._handleLikeClick(_this._isLiked, _this);
-    });
-  });
-  _defineProperty(this, "removeCard", function () {
-    _this._card.remove();
-    _this._card = null;
-  });
-  _defineProperty(this, "_addRemoveListener", function () {
-    var buttonDelete = _this._card.querySelector('.element__delete');
-    buttonDelete.addEventListener('click', function () {
-      _this._handleRemoveClick(_this);
-    });
-  });
-  _defineProperty(this, "_addViewListener", function () {
-    _this._image.addEventListener('click', function () {
-      _this._handleCardClick({
-        caption: _this._cardName,
-        src: _this._cardImgURL
+var Card = /*#__PURE__*/function () {
+  function Card(cardData, cardsTemplateSelector, handleCardClick, handleRemoveClick, handleLikeClick) {
+    var _this = this;
+    _classCallCheck(this, Card);
+    _defineProperty(this, "_addLikeListener", function () {
+      _this.heartElement = _this._card.querySelector('.element__heart');
+      _this.heartElement.addEventListener('click', function () {
+        _this._handleLikeClick(_this._isLiked, _this);
       });
     });
-  });
-  _defineProperty(this, "getId", function () {
-    return _this._id;
-  });
-  _defineProperty(this, "_addDeliteButton", function () {
-    _this._deleteButton = _this._card.querySelector('.element__delete');
-    if (!_this._isDelitable) {
-      _this._deleteButton.classList.add('element__delete_hidden');
-      _this._deleteButton.disable = true;
+    _defineProperty(this, "removeCard", function () {
+      _this._card.remove();
+      _this._card = null;
+    });
+    _defineProperty(this, "_addRemoveListener", function () {
+      var buttonDelete = _this._card.querySelector('.element__delete');
+      buttonDelete.addEventListener('click', function () {
+        _this._handleRemoveClick(_this);
+      });
+    });
+    _defineProperty(this, "_addViewListener", function () {
+      _this._image.addEventListener('click', function () {
+        _this._handleCardClick({
+          caption: _this._cardName,
+          src: _this._cardImgURL
+        });
+      });
+    });
+    _defineProperty(this, "getId", function () {
+      return _this._id;
+    });
+    _defineProperty(this, "_addDeliteButton", function () {
+      _this._deleteButton = _this._card.querySelector('.element__delete');
+      if (!_this._isDelitable) {
+        _this._deleteButton.classList.add('element__delete_hidden');
+        _this._deleteButton.disable = true;
+      }
+    });
+    _defineProperty(this, "toddleHeartElementState", function () {
+      _this._likesElement.textContent = _this._numberOfLikes;
+      if (_this._isLiked) {
+        _this.heartElement.classList.add('element__heart_clicked');
+      } else {
+        _this.heartElement.classList.remove('element__heart_clicked');
+      }
+    });
+    _defineProperty(this, "createCard", function () {
+      _this._card = _this._cardsTemplate.cloneNode(true).children[0];
+      _this._image = _this._card.querySelector('.element__image');
+      _this._image.src = _this._cardImgURL;
+      _this._image.alt = _this._cardName;
+      _this._likesElement = _this._card.querySelector('.element__heart_counter');
+      _this._card.querySelector('.element__title').textContent = _this._cardName;
+      _this._addDeliteButton();
+      _this._addLikeListener();
+      _this._addRemoveListener();
+      _this._addViewListener();
+      _this.toddleHeartElementState();
+      return _this._card;
+    });
+    this._cardName = cardData.name;
+    this._cardImgURL = cardData.link;
+    this._numberOfLikes = cardData.likes.length;
+    this._id = cardData.id;
+    this._ownerId = cardData.ownerId;
+    this._isDelitable = cardData.isDelitable;
+    this._isLiked = cardData.isLiked;
+    this._cardsTemplate = document.querySelector(cardsTemplateSelector).content;
+    this._handleCardClick = handleCardClick;
+    this._handleRemoveClick = handleRemoveClick;
+    this._handleLikeClick = handleLikeClick;
+  }
+  _createClass(Card, [{
+    key: "setNumberOfLikes",
+    value: function setNumberOfLikes(num) {
+      this._numberOfLikes = num;
     }
-  });
-  _defineProperty(this, "toddleHeartElementState", function () {
-    _this._card.querySelector('.element__heart_counter').textContent = _this._amountLikes;
-    if (_this._isLiked) {
-      _this.heartElement.classList.add('element__heart_clicked');
-    } else {
-      _this.heartElement.classList.remove('element__heart_clicked');
+  }, {
+    key: "searhIsCardLiked",
+    value: function searhIsCardLiked(likes, userId) {
+      var islikedInResponce = false;
+      likes.forEach(function (user) {
+        if (user._id === userId) {
+          islikedInResponce = true;
+        }
+      });
+      this._isLiked = islikedInResponce;
     }
-  });
-  _defineProperty(this, "createCard", function () {
-    _this._card = _this._cardsTemplate.cloneNode(true).children[0];
-    _this._image = _this._card.querySelector('.element__image');
-    _this._image.src = _this._cardImgURL;
-    _this._image.alt = _this._cardName;
-    _this._card.querySelector('.element__title').textContent = _this._cardName;
-    _this._addDeliteButton();
-    _this._addLikeListener();
-    _this._addRemoveListener();
-    _this._addViewListener();
-    _this.toddleHeartElementState();
-    return _this._card;
-  });
-  this._cardName = cardData.name;
-  this._cardImgURL = cardData.link;
-  this._amountLikes = cardData.likes.length;
-  this._id = cardData.id;
-  this._ownerId = cardData.ownerId;
-  this._isDelitable = cardData.isDelitable;
-  this._isLiked = cardData.isLiked;
-  this._cardsTemplate = document.querySelector(cardsTemplateSelector).content;
-  this._handleCardClick = handleCardClick;
-  this._handleRemoveClick = handleRemoveClick;
-  this._handleLikeClick = handleLikeClick;
-});
+  }]);
+  return Card;
+}();
 
 
 /***/ }),
@@ -470,6 +475,11 @@ var PopupWithButton = /*#__PURE__*/function (_Popup) {
     return _this;
   }
   _createClass(PopupWithButton, [{
+    key: "setParameter",
+    value: function setParameter(parameter) {
+      this._parameter = parameter;
+    }
+  }, {
     key: "setEventListeners",
     value: function setEventListeners() {
       this._button.addEventListener('click', this._handle);
@@ -793,7 +803,6 @@ var apiConfig = {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "avatar": () => (/* binding */ avatar),
 /* harmony export */   "popupAddCardButtonOpen": () => (/* binding */ popupAddCardButtonOpen),
 /* harmony export */   "popupChangeAvatarButtonOpen": () => (/* binding */ popupChangeAvatarButtonOpen),
 /* harmony export */   "popupProfileButtonOpen": () => (/* binding */ popupProfileButtonOpen)
@@ -801,7 +810,6 @@ __webpack_require__.r(__webpack_exports__);
 var popupProfileButtonOpen = document.querySelector('.profile__edit-button');
 var popupAddCardButtonOpen = document.querySelector('.profile__add-button');
 var popupChangeAvatarButtonOpen = document.querySelector('.profile__img-container');
-var avatar = document.querySelector('.profile__image');
 
 
 /***/ }),
@@ -914,33 +922,33 @@ var popupProfileValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_M
 var popupAddCardValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.formAddCard);
 var popupChangeAvatarValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.formChangeProfileAvatar);
 var sectionCards = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.elements__holder');
+var userId = null;
+var popupRemoveCard = new _components_PopupWithButton__WEBPACK_IMPORTED_MODULE_10__["default"]('.popup_remove-card', function (card) {
+  api.deleteCard(card.getId()).then(function () {
+    return card.removeCard();
+  }).catch(function (err) {
+    return console.error(err);
+  });
+  popupRemoveCard.close();
+});
+popupRemoveCard.setEventListeners();
 var handleRemoveClick = function handleRemoveClick(removedElement) {
-  var popupRemoveCard = new _components_PopupWithButton__WEBPACK_IMPORTED_MODULE_10__["default"]('.popup_remove-card', function (card) {
-    api.deleteCard(card.getId()).then(card.removeCard());
-    popupRemoveCard.removeEventListener();
-    popupRemoveCard.close();
-  }, removedElement);
-  popupRemoveCard.setEventListeners();
+  popupRemoveCard.setParameter(removedElement);
   popupRemoveCard.open();
 };
 var handleLikeClick = function handleLikeClick(isLiked, card) {
   var promise = isLiked ? api.deleteLike(card.getId()) : api.putLike(card.getId());
   promise.then(function (data) {
-    card._amountLikes = data.likes.length;
-    var islikedInResponce = false;
-    data.likes.forEach(function (user) {
-      if (user._id === userInfo.getCurrentUserId()) {
-        islikedInResponce = true;
-      }
-    });
-    card._isLiked = islikedInResponce;
+    card.setNumberOfLikes(data.likes.length);
+    card.searhIsCardLiked(data.likes, userId);
     card.toddleHeartElementState();
+  }).catch(function (err) {
+    return console.error(err);
   });
 };
 var handleCardClick = function handleCardClick(_ref) {
   var src = _ref.src,
     caption = _ref.caption;
-  popupWithImage.setEventListeners();
   popupWithImage.open({
     src: src,
     caption: caption
@@ -954,10 +962,10 @@ var getCard = function getCard(data) {
     id: data._id,
     ownerId: data.owner._id
   };
-  cardData.isDelitable = userInfo.getCurrentUserId() === cardData.ownerId;
+  cardData.isDelitable = userId === cardData.ownerId;
   cardData.isLiked = false;
   cardData.likes.forEach(function (user) {
-    if (user._id === userInfo.getCurrentUserId()) {
+    if (user._id === userId) {
       cardData.isLiked = true;
     }
   });
@@ -968,18 +976,21 @@ var userInfo = new _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_7__["default
   descriptionSelector: '.profile__subtitle',
   avatarSelector: '.profile__image'
 });
-var userInfoPromise = api.getUserInfo().then(function (data) {
-  userInfo.setAvatar(data.avatar);
-  userInfo.setUserInfo(data);
-});
-Promise.all([api.getCards(), userInfoPromise]).then(function (_ref2) {
-  var _ref3 = _slicedToArray(_ref2, 1),
-    datas = _ref3[0];
-  datas.forEach(function (data) {
+Promise.all([api.getCards(), api.getUserInfo()]).then(function (_ref2) {
+  var _ref3 = _slicedToArray(_ref2, 2),
+    CardsData = _ref3[0],
+    userData = _ref3[1];
+  userInfo.setAvatar(userData.avatar);
+  userInfo.setUserInfo(userData);
+  userId = userInfo.getCurrentUserId();
+  CardsData.forEach(function (data) {
     return sectionCards.addItem(getCard(data), true);
   });
+}).catch(function (err) {
+  return console.error(err);
 });
 var popupWithImage = new _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_5__["default"]('.popup_view-image');
+popupWithImage.setEventListeners();
 var profilePopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.popup_add-profile', function (event, inputValues) {
   event.preventDefault();
   profilePopup.showLoading();
@@ -988,9 +999,13 @@ var profilePopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__
     about: inputValues.description
   }).then(function (data) {
     userInfo.setUserInfo(data);
+    userId = userInfo.getCurrentUserId();
     profilePopup.close();
-    profilePopup.showLoadingIsFinished();
     popupProfileValidator.toggleButtonState();
+  }).catch(function (err) {
+    return console.error(err);
+  }).finally(function () {
+    return profilePopup.showLoadingIsFinished();
   });
 });
 var newCardPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.popup_add-card', function (event, inputValues) {
@@ -999,16 +1014,22 @@ var newCardPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__
   api.postCard(inputValues).then(function (data) {
     sectionCards.addItem(getCard(data), false);
     newCardPopup.close();
-    newCardPopup.showLoadingIsFinished();
+  }).catch(function (err) {
+    return console.error(err);
+  }).finally(function () {
+    return newCardPopup.showLoadingIsFinished();
   });
 });
 var changeAvatarPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.popup_change-profile-avatar', function (event, inputValues) {
   event.preventDefault();
   changeAvatarPopup.showLoading();
   api.patchUserInfoAvatar(inputValues).then(function (data) {
-    _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.avatar.src = data.avatar;
+    userInfo.setAvatar(data.avatar);
     changeAvatarPopup.close();
-    changeAvatarPopup.showLoadingIsFinished();
+  }).catch(function (err) {
+    return console.error(err);
+  }).finally(function () {
+    return changeAvatarPopup.showLoadingIsFinished();
   });
 });
 newCardPopup.setEventListeners();
