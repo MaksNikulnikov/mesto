@@ -2,7 +2,7 @@ export default class Card {
     constructor(cardData, cardsTemplateSelector, handleCardClick, handleRemoveClick, handleLikeClick) {
         this._cardName = cardData.name;
         this._cardImgURL = cardData.link;
-        this._amountLikes = cardData.likes.length;
+        this._numberOfLikes = cardData.likes.length;
         this._id = cardData.id;
         this._ownerId = cardData.ownerId;
         this._isDelitable = cardData.isDelitable;
@@ -50,8 +50,22 @@ export default class Card {
         }
     }
 
+    setNumberOfLikes(num) {
+        this._numberOfLikes = num;
+    }
+
+    searhIsCardLiked(likes, userId){
+        let islikedInResponce = false;
+        likes.forEach((user) => {
+            if (user._id === userId) {
+                islikedInResponce = true;
+            }
+        });
+        this._isLiked = islikedInResponce;
+    }
+
     toddleHeartElementState = () => {
-        this._card.querySelector('.element__heart_counter').textContent = this._amountLikes;
+        this._likesElement.textContent = this._numberOfLikes;
         if (this._isLiked) {
             this.heartElement.classList.add('element__heart_clicked');
         } else {
@@ -64,6 +78,7 @@ export default class Card {
         this._image = this._card.querySelector('.element__image');
         this._image.src = this._cardImgURL;
         this._image.alt = this._cardName;
+        this._likesElement = this._card.querySelector('.element__heart_counter');
         this._card.querySelector('.element__title').textContent = this._cardName;
         this._addDeliteButton();
         this._addLikeListener();
