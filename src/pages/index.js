@@ -27,9 +27,11 @@ let userId = null;
 
 const popupRemoveCard = new PopupWithButton('.popup_remove-card', (card) => {
     api.deleteCard(card.getId())
-        .then(()=> card.removeCard())
+        .then(() => {
+            card.removeCard();
+            popupRemoveCard.close();
+        })
         .catch(err => console.error(err));
-    popupRemoveCard.close();
 });
 
 popupRemoveCard.setEventListeners();
@@ -79,11 +81,11 @@ const userInfo = new UserInfo({
 });
 
 Promise.all([api.getCards(), api.getUserInfo()])
-    .then(([CardsData, userData]) => {
+    .then(([cardsData, userData]) => {
         userInfo.setAvatar(userData.avatar);
         userInfo.setUserInfo(userData);
         userId = userInfo.getCurrentUserId();
-        CardsData.forEach(data => sectionCards.addItem(getCard(data), true));
+        cardsData.forEach(data => sectionCards.addItem(getCard(data), true));
     })
     .catch(err => console.error(err));
 
