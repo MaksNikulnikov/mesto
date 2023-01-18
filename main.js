@@ -925,11 +925,11 @@ var sectionCards = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["defa
 var userId = null;
 var popupRemoveCard = new _components_PopupWithButton__WEBPACK_IMPORTED_MODULE_10__["default"]('.popup_remove-card', function (card) {
   api.deleteCard(card.getId()).then(function () {
-    return card.removeCard();
+    card.removeCard();
+    popupRemoveCard.close();
   }).catch(function (err) {
     return console.error(err);
   });
-  popupRemoveCard.close();
 });
 popupRemoveCard.setEventListeners();
 var handleRemoveClick = function handleRemoveClick(removedElement) {
@@ -978,12 +978,12 @@ var userInfo = new _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_7__["default
 });
 Promise.all([api.getCards(), api.getUserInfo()]).then(function (_ref2) {
   var _ref3 = _slicedToArray(_ref2, 2),
-    CardsData = _ref3[0],
+    cardsData = _ref3[0],
     userData = _ref3[1];
   userInfo.setAvatar(userData.avatar);
   userInfo.setUserInfo(userData);
   userId = userInfo.getCurrentUserId();
-  CardsData.forEach(function (data) {
+  cardsData.forEach(function (data) {
     return sectionCards.addItem(getCard(data), true);
   });
 }).catch(function (err) {
