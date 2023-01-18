@@ -35,6 +35,5 @@ export default class UserInfo {
     setAvatar(avatar) {
         this._avatar = avatar;
         this._renderAvatar();
-
     }
 }

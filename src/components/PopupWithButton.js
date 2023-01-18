@@ -8,6 +8,10 @@ export default class PopupWithButton extends Popup {
         this._button = this._popup.querySelector('.popup__submit-btn');
     }
 
+    setParameter(parameter) {
+        this._parameter = parameter;
+    }
+
     _handle = () => {
         this._handler(this._parameter);
     }

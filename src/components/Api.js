@@ -24,8 +24,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-            .then(res => this._handleResponce(res))
-            .catch(err => console.error(err));
+            .then(res => this._handleResponce(res));
     }
 
     getCards() {
@@ -34,8 +33,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-            .then(res => this._handleResponce(res))
-            .catch(err => console.error(err));
+            .then(res => this._handleResponce(res));
     }
 
     patchUserInfo({ name, about }) {
@@ -50,8 +48,7 @@ export default class Api {
                 about: about
             })
         })
-            .then(res => this._handleResponce(res))
-            .catch(err => console.error(err));
+            .then(res => this._handleResponce(res));
     }
 
     patchUserInfoAvatar({ link }) {
@@ -65,8 +62,7 @@ export default class Api {
                 avatar: link
             })
         })
-            .then(res => this._handleResponce(res))
-            .catch(err => console.error(err));
+            .then(res => this._handleResponce(res));
     }
 
     postCard({ name, link }) {
@@ -81,8 +77,7 @@ export default class Api {
                 link: link
             })
         })
-            .then(res => this._handleResponce(res))
-            .catch(err => console.error(err));
+            .then(res => this._handleResponce(res));
     }
 
     deleteCard(cardId) {
@@ -92,8 +87,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-            .then(res => this._handleResponce(res))
-            .catch(err => console.error(err));
+            .then(res => this._handleResponce(res));
     }
 
     putLike(cardId) {
@@ -103,8 +97,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-            .then(res => this._handleResponce(res))
-            .catch(err => console.error(err));
+            .then(res => this._handleResponce(res));
     }
 
     deleteLike(cardId) {
@@ -114,7 +107,6 @@ export default class Api {
                 authorization: this._token
             }
         })
-            .then(res => this._handleResponce(res))
-            .catch(err => console.error(err));
+            .then(res => this._handleResponce(res));
     }
 }
