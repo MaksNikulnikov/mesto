@@ -21,6 +21,4 @@
 * Система контроля версий **GIT**
 * Сборка **WebPack**
 
-### Сcылка на проект ###
-
-https://maksnikulnikov.github.io/mesto/
+[Сcылка на проект](https://maksnikulnikov.github.io/mesto/)
