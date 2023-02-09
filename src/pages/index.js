@@ -18,9 +18,10 @@ import Api from '../components/Api';
 import PopupWithButton from '../components/PopupWithButton';
 
 const api = new Api(apiConfig);
-const popupProfileValidator = new FormValidator(validationConfig, document.forms.formProfile);
-const popupAddCardValidator = new FormValidator(validationConfig, document.forms.formAddCard);
-const popupChangeAvatarValidator = new FormValidator(validationConfig, document.forms.formChangeProfileAvatar);
+console.log(document.forms)
+const popupProfileValidator = new FormValidator(validationConfig, document.forms.profile);
+const popupAddCardValidator = new FormValidator(validationConfig, document.forms.card);
+const popupChangeAvatarValidator = new FormValidator(validationConfig, document.forms.avatar);
 const sectionCards = new Section('.elements__holder');
 
 let userId = null;
