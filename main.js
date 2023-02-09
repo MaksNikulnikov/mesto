@@ -918,7 +918,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var api = new _components_Api__WEBPACK_IMPORTED_MODULE_9__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.apiConfig);
-console.log(document.forms);
 var popupProfileValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.profile);
 var popupAddCardValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.card);
 var popupChangeAvatarValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.avatar);
