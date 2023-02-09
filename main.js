@@ -918,9 +918,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var api = new _components_Api__WEBPACK_IMPORTED_MODULE_9__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.apiConfig);
-var popupProfileValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.formProfile);
-var popupAddCardValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.formAddCard);
-var popupChangeAvatarValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.formChangeProfileAvatar);
+console.log(document.forms);
+var popupProfileValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.profile);
+var popupAddCardValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.card);
+var popupChangeAvatarValidator = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_config_js__WEBPACK_IMPORTED_MODULE_1__.validationConfig, document.forms.avatar);
 var sectionCards = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.elements__holder');
 var userId = null;
 var popupRemoveCard = new _components_PopupWithButton__WEBPACK_IMPORTED_MODULE_10__["default"]('.popup_remove-card', function (card) {
